@@ -52,7 +52,7 @@ public class Terminal {
 
     public static LocalDate lerData(String mensagem) {
         while (true) {
-            String s = lerLinha(mensagem + " (AAAA-MM-DD): ");
+            String s = lerLinha(mensagem + "(AAAA-MM-DD): ");
             try {
                 return LocalDate.parse(s);
             } catch (DateTimeParseException e) {

@@ -48,7 +48,6 @@ public class Concessionaria {
     // Métodos para delegar a responsabilidade ao ClienteRepository
     public void adicionarCliente(Cliente cliente) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros {
         clienteRepository.adicionar(cliente);
-        System.out.println("Cliente " + cliente.getNome() + " cadastrado com sucesso.");
     }
 
     public Cliente buscarCliente(String cpf) throws ClienteNaoEncontradoException {
@@ -60,14 +59,14 @@ public class Concessionaria {
         System.out.println("Cliente com CPF " + cpf + " removido do sistema.");
     }
 
-    public void editarDadosCliente(String cpf, String novoNome, int novaIdade) throws ClienteNaoEncontradoException, NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros {
+    public void editarDadosCliente(String cpf, String novoNome, LocalDate novaDataNascimento) throws ClienteNaoEncontradoException, NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros {
         if (novoNome.matches(".*\\d.*")) {
             throw new NomeDoClienteContemNumerosException("O nome do cliente não pode conter números.");
         }
         
         Cliente clienteParaEditar = buscarCliente(cpf);
         clienteParaEditar.setNome(novoNome);
-        clienteParaEditar.setIdade(novaIdade);
+        clienteParaEditar.setDataNascimento(novaDataNascimento);
         System.out.println("Dados do cliente com CPF " + cpf + " editados.");
     }
     

@@ -11,8 +11,8 @@ import java.util.List;
 import transacoes.Transacao;
 
 public class Gerente extends Vendedor {
-    public Gerente(String nome, String cpf, int idade) {
-        super(nome, cpf, idade);
+    public Gerente(String nome, String cpf, LocalDate dataNascimento) {
+        super(nome, cpf, dataNascimento);
     }
 
     public void adicionarVeiculo(Concessionaria concessionaria, Veiculo veiculo) { // a fachada gerente tem como atributo conssecionaria
@@ -31,13 +31,13 @@ public class Gerente extends Vendedor {
         return concessionaria.buscarCliente(cpf);
     }
 
-    public void editarDadosCliente(Concessionaria concessionaria, String cpf, String novoNome, int novaIdade) throws ClienteNaoEncontradoException, NomeDoClienteContemNumerosException {
+    public void editarDadosCliente(Concessionaria concessionaria, String cpf, String novoNome, LocalDate novaDataNascimento) throws ClienteNaoEncontradoException, NomeDoClienteContemNumerosException {
         if (novoNome.matches(".*\\d.*")) {
             throw new NomeDoClienteContemNumerosException("O nome do cliente não pode conter números.");
         }
         Cliente clienteParaEditar = concessionaria.buscarCliente(cpf);
         clienteParaEditar.setNome(novoNome);
-        clienteParaEditar.setIdade(novaIdade);
+        clienteParaEditar.setDataNascimento(novaDataNascimento);
         System.out.println("Dados do cliente com CPF " + cpf + " editados.");
     }
 

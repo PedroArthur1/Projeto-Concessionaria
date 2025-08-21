@@ -19,15 +19,15 @@ import concessionaria.repositorios.VeiculoRepository;
 public class Main {
     public static void main(String[] args) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros {
         Concessionaria minhaConcessionaria = new Concessionaria();
-        Gerente gerente = new Gerente("João Gerente", "11122233344", 45);
-        Vendedor vendedor = new Vendedor("Maria Vendedora", "55566677788", 30);
+        Gerente gerente = new Gerente("João Gerente", "11122233344", LocalDate.of(1974, 3, 5));
+        Vendedor vendedor = new Vendedor("Maria Vendedora", "55566677788", LocalDate.of(1989, 3, 20));
         
         
         minhaConcessionaria.adicionarVeiculo(new Veiculo("Onix", "Chevrolet", 2023, 75000.00));
         minhaConcessionaria.adicionarVeiculo(new Veiculo("Corolla", "Toyota", 2024, 180000.00));
         minhaConcessionaria.adicionarVeiculo(new Veiculo("Gol", "Volkswagen", 2015, 45000.00));
-        minhaConcessionaria.adicionarCliente(new Cliente("Ana Silva", "99988877766", 28));
-        minhaConcessionaria.adicionarCliente(new Cliente("Carlos Souza", "12345678900", 22));
+        minhaConcessionaria.adicionarCliente(new Cliente("Ana Silva", "99988877766", LocalDate.of(1993, 3, 5)));
+        minhaConcessionaria.adicionarCliente(new Cliente("Carlos Souza", "12345678900", LocalDate.of(2003, 3, 5)));
 
         int opcao = -1;
         while (opcao != 0) {
@@ -75,9 +75,9 @@ public class Main {
                 case 1 -> {
                     String nome = Terminal.lerString("Nome do cliente: ");
                     String cpf = Terminal.lerString("CPF do cliente: ");
-                    int idade = Terminal.lerInt("Idade do cliente: ");
+                    LocalDate dataNascimento = Terminal.lerData("Data de nascimento do cliente ");
                     try{
-                        vendedor.cadastrarCliente(concessionaria, new Cliente(nome, cpf, idade));
+                        vendedor.cadastrarCliente(concessionaria, new Cliente(nome, cpf, dataNascimento));
                     } 
                     catch(NomeDoClienteContemNumerosException | CPFClienteDeveConterOnzeNumeros e){
                         System.err.println("ERRO: " + e.getMessage());
@@ -247,8 +247,8 @@ public class Main {
                     try {
                         String cpfEditar = Terminal.lerString("CPF do cliente para editar: ");
                         String novoNome = Terminal.lerString("Novo nome: ");
-                        int novaIdade = Terminal.lerInt("Nova idade: ");
-                        gerente.editarDadosCliente(concessionaria, cpfEditar, novoNome, novaIdade);
+                        LocalDate novaDataNascimento = Terminal.lerData("Nova data de nascimento: ");
+                        gerente.editarDadosCliente(concessionaria, cpfEditar, novoNome, novaDataNascimento);
                     } catch (ClienteNaoEncontradoException | NomeDoClienteContemNumerosException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
@@ -276,9 +276,9 @@ public class Main {
                 case 8:
                     String nome = Terminal.lerString("Nome do cliente: ");
                     String cpf = Terminal.lerString("CPF do cliente: ");
-                    int idade = Terminal.lerInt("Idade do cliente: ");
+                    LocalDate dataNascimento = Terminal.lerData("Data de nascimento do cliente: ");
                     try {
-                        gerente.cadastrarCliente(concessionaria, new Cliente(nome, cpf, idade));
+                        gerente.cadastrarCliente(concessionaria, new Cliente(nome, cpf, dataNascimento));
                     } catch (NomeDoClienteContemNumerosException | CPFClienteDeveConterOnzeNumeros e) {
                         System.err.println("ERRO: " + e.getMessage());
                     }

@@ -5,12 +5,14 @@ import entidades.Veiculo;
 import excessoes.VeiculoNaoEncontradoException;
 import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
 import excessoes.cliente.NomeDoClienteContemNumerosException;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Vendedor extends Funcionario {
-    public Vendedor(String nome, String cpf, int idade) {
-        super(nome, cpf, idade);
+    public Vendedor(String nome, String cpf, LocalDate dataNascimento) {
+        super(nome, cpf, dataNascimento);
     }
 
     public void cadastrarCliente(Concessionaria concessionaria, Cliente cliente) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros {
