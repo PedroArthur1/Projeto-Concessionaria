@@ -80,7 +80,6 @@ public class Concessionaria {
         
         Venda novaVenda = new Venda(cliente, veiculoEmEstoque, metodoPagamento);
         transacaoRepository.adicionar(novaVenda);
-        cliente.adicionarTransacao(novaVenda);
         veiculoRepository.remover(veiculoEmEstoque.getModelo());
         System.out.println("Venda registrada com sucesso para " + cliente.getNome() + " do veículo " + veiculo.getModelo());
     }
@@ -90,7 +89,6 @@ public class Concessionaria {
 
         Aluguel novoAluguel = new Aluguel(cliente, veiculoEmEstoque, metodoPagamento, dias);
         transacaoRepository.adicionar(novoAluguel);
-        cliente.adicionarTransacao(novoAluguel);
         System.out.println("Aluguel registrado com sucesso para " + cliente.getNome() + " do veículo " + veiculo.getModelo());
     }
     
