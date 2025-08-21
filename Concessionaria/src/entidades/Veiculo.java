@@ -3,9 +3,9 @@ public class Veiculo {
 
     private static int contador = 1;
     private final int id;
-    private String modelo;
-    private String marca;
-    private int ano;
+    private final String modelo;
+    private final String marca;
+    private final int ano;
     private double preco;
 
     public Veiculo(String modelo, String marca, int ano, double preco) {
@@ -16,7 +16,7 @@ public class Veiculo {
         this.preco = preco;
     }
 
-    // Getters e Setters
+   
     public int getId() { return id; }
     public String getModelo() { return modelo; }
     public String getMarca() { return marca; }

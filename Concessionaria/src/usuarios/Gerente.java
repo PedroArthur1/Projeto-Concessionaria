@@ -1,24 +1,21 @@
 package usuarios;
-import java.util.List;
-
 import concessionaria.Concessionaria;
 import entidades.Cliente;
 import entidades.Veiculo;
 import excessoes.VeiculoNaoEncontradoException;
 import excessoes.cliente.ClienteNaoEncontradoException;
-import transacoes.Transacao;
+import excessoes.cliente.NomeDoClienteContemNumerosException;
 
 import java.time.LocalDate;
+import java.util.List;
+import transacoes.Transacao;
 
 public class Gerente extends Vendedor {
     public Gerente(String nome, String cpf, int idade) {
         super(nome, cpf, idade);
     }
 
-    // Métodos herdados do Vendedor (não precisam ser reescritos, a menos que a lógica mude)
-
-    // Funcionalidades de Gerente
-    public void adicionarVeiculo(Concessionaria concessionaria, Veiculo veiculo) {
+    public void adicionarVeiculo(Concessionaria concessionaria, Veiculo veiculo) { // a fachada gerente tem como atributo conssecionaria
         concessionaria.adicionarVeiculo(veiculo);
     }
 
@@ -34,8 +31,14 @@ public class Gerente extends Vendedor {
         return concessionaria.buscarCliente(cpf);
     }
 
-    public void editarDadosCliente(Concessionaria concessionaria, String cpf, String novoNome, int novaIdade) throws ClienteNaoEncontradoException {
-        concessionaria.editarDadosCliente(cpf, novoNome, novaIdade);
+    public void editarDadosCliente(Concessionaria concessionaria, String cpf, String novoNome, int novaIdade) throws ClienteNaoEncontradoException, NomeDoClienteContemNumerosException {
+        if (novoNome.matches(".*\\d.*")) {
+            throw new NomeDoClienteContemNumerosException("O nome do cliente não pode conter números.");
+        }
+        Cliente clienteParaEditar = concessionaria.buscarCliente(cpf);
+        clienteParaEditar.setNome(novoNome);
+        clienteParaEditar.setIdade(novaIdade);
+        System.out.println("Dados do cliente com CPF " + cpf + " editados.");
     }
 
     public void removerCliente(Concessionaria concessionaria, String cpf) throws ClienteNaoEncontradoException {

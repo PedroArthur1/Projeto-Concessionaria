@@ -1,17 +1,19 @@
 package concessionaria;
-import java.time.LocalDate;
-import java.util.List;
-
 import entidades.Cliente;
 import entidades.Veiculo;
 import excessoes.ParcelasInvalidasException;
 import excessoes.VeiculoNaoEncontradoException;
+import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
 import excessoes.cliente.ClienteNaoEncontradoException;
 import excessoes.cliente.NomeDoClienteContemNumerosException;
-import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
+import java.time.LocalDate;
+import java.util.List;
 import transacoes.Transacao;
 import usuarios.Gerente;
 import usuarios.Vendedor;
+import concessionaria.repositorios.ClienteRepository;
+import concessionaria.repositorios.TransacaoRepository;
+import concessionaria.repositorios.VeiculoRepository;
 
 
 public class Main {
@@ -20,7 +22,7 @@ public class Main {
         Gerente gerente = new Gerente("João Gerente", "11122233344", 45);
         Vendedor vendedor = new Vendedor("Maria Vendedora", "55566677788", 30);
         
-        // Simulação de alguns dados iniciais
+        
         minhaConcessionaria.adicionarVeiculo(new Veiculo("Onix", "Chevrolet", 2023, 75000.00));
         minhaConcessionaria.adicionarVeiculo(new Veiculo("Corolla", "Toyota", 2024, 180000.00));
         minhaConcessionaria.adicionarVeiculo(new Veiculo("Gol", "Volkswagen", 2015, 45000.00));
@@ -70,27 +72,23 @@ public class Main {
             opcao = Terminal.lerInt("Escolha uma opção: ");
             
             switch (opcao) {
-                case 1:
+                case 1 -> {
                     String nome = Terminal.lerString("Nome do cliente: ");
                     String cpf = Terminal.lerString("CPF do cliente: ");
                     int idade = Terminal.lerInt("Idade do cliente: ");
                     try{
                         vendedor.cadastrarCliente(concessionaria, new Cliente(nome, cpf, idade));
                     } 
-                    catch(NomeDoClienteContemNumerosException e){
+                    catch(NomeDoClienteContemNumerosException | CPFClienteDeveConterOnzeNumeros e){
                         System.err.println("ERRO: " + e.getMessage());
                     }
-                    catch(CPFClienteDeveConterOnzeNumeros e){
-                        System.err.println("ERRO: " + e.getMessage());
-                    }
-                    
-                    break;
-                case 2:
+                }
+
+                case 2 -> {
                     System.out.println("\n--- Veículos Disponíveis ---");
                     vendedor.consultarModelosDisponiveis(concessionaria).forEach(System.out::println);
-                    break;
-                case 3:
-                    // "Tabela" simples das formas de pagamento
+                }
+                case 3 -> {
                     System.out.printf( "\n---Forma de pagamento---\n");
                     System.out.printf( "1. Dinheiro\n");
                     System.out.printf( "2. Cartão de Débito\n");
@@ -118,10 +116,10 @@ public class Main {
                                 int p = Terminal.lerInt("Em quantas vezes? (1 a 24): ");
                                 if (p < 1 || p > 24) {
                                     throw new ParcelasInvalidasException(
-                                        "Número de parcelas inválido: " + p + " (permitido: 1 a 24)"
+                                                 "Número de parcelas inválido: " + p + " (permitido: 1 a 24)"
                                     );
                                 }
-                                parcelas = p; // opcional: guarde/mostre
+                                parcelas = p; 
                             }
                             case 4 -> metodoPagamentoVenda = "PIX";
                             case 5 -> metodoPagamentoVenda = "BOLETO";
@@ -130,27 +128,26 @@ public class Main {
                                 break;
                             }
                         }
-
-                        // Se quiser, acrescente as parcelas na string (ex.: "CREDITO 10x")
+                        
+                        
                         if ("CREDITO".equals(metodoPagamentoVenda) && parcelas != null) {
                             metodoPagamentoVenda = metodoPagamentoVenda + " " + parcelas + "x";
                         }
 
                         vendedor.registrarVenda(
-                            concessionaria,
-                            clienteVenda,
-                            new Veiculo(modeloVenda, "", anoVenda, 0.0),
-                            metodoPagamentoVenda
+                                concessionaria,
+                                clienteVenda,
+                                new Veiculo(modeloVenda, "", anoVenda, 0.0),
+                                metodoPagamentoVenda
                         );
 
-                    } catch (ParcelasInvalidasException e) {
-                        System.out.println("Erro: " + e.getMessage());
-                    } catch (ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
+                    } catch (ParcelasInvalidasException | ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
-                    break;
+                }
 
-                case 4:
+
+                case 4 -> {
                     try {
                         String cpfClienteAluguel = Terminal.lerString("CPF do cliente para aluguel: ");
                         Cliente clienteAluguel = concessionaria.buscarCliente(cpfClienteAluguel);
@@ -164,8 +161,8 @@ public class Main {
                     } catch (ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
-                    break;
-                case 5:
+                }
+                case 5 -> {
                     try {
                         String cpfClienteRecomendacao = Terminal.lerString("CPF do cliente para recomendação: ");
                         Cliente clienteRecomendacao = concessionaria.buscarCliente(cpfClienteRecomendacao);
@@ -179,12 +176,9 @@ public class Main {
                     } catch (ClienteNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
-                    break;
-                case 0:
-                    System.out.println("Voltando ao menu principal...");
-                    break;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
+                }
+                case 0 -> System.out.println("Voltando ao menu principal...");
+                default -> System.out.println("Opção inválida. Tente novamente.");
             }
         }
     }
@@ -193,6 +187,7 @@ public class Main {
         int opcao = -1;
         while (opcao != 0) {
             System.out.println("\n--- Menu do Gerente ---");
+            // Ações do Gerente
             System.out.println("1. Adicionar Veículo");
             System.out.println("2. Remover Veículo");
             System.out.println("3. Editar Dados do Veículo");
@@ -200,11 +195,21 @@ public class Main {
             System.out.println("5. Editar Dados do Cliente");
             System.out.println("6. Remover Cliente");
             System.out.println("7. Gerar Relatório de Vendas e Aluguéis");
+            
+            // Ações do Vendedor (que o gerente também pode fazer)
+            System.out.println("\n--- Ações de Vendas ---");
+            System.out.println("8. Cadastrar Cliente");
+            System.out.println("9. Consultar Veículos Disponíveis");
+            System.out.println("10. Registrar Venda");
+            System.out.println("11. Registrar Aluguel");
+            System.out.println("12. Recomendar Veículo");
+            
             System.out.println("0. Voltar");
             
             opcao = Terminal.lerInt("Escolha uma opção: ");
             
             switch (opcao) {
+                // Ações de Gerente
                 case 1:
                     String modeloAdd = Terminal.lerString("Modelo do veículo: ");
                     String marcaAdd = Terminal.lerString("Marca do veículo: ");
@@ -244,7 +249,7 @@ public class Main {
                         String novoNome = Terminal.lerString("Novo nome: ");
                         int novaIdade = Terminal.lerInt("Nova idade: ");
                         gerente.editarDadosCliente(concessionaria, cpfEditar, novoNome, novaIdade);
-                    } catch (ClienteNaoEncontradoException e) {
+                    } catch (ClienteNaoEncontradoException | NomeDoClienteContemNumerosException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
                     break;
@@ -264,6 +269,98 @@ public class Main {
                     relatorio.forEach(System.out::println);
                     if (relatorio.isEmpty()) {
                         System.out.println("Nenhuma transação encontrada no período.");
+                    }
+                    break;
+                
+                // Ações de Vendedor
+                case 8:
+                    String nome = Terminal.lerString("Nome do cliente: ");
+                    String cpf = Terminal.lerString("CPF do cliente: ");
+                    int idade = Terminal.lerInt("Idade do cliente: ");
+                    try {
+                        gerente.cadastrarCliente(concessionaria, new Cliente(nome, cpf, idade));
+                    } catch (NomeDoClienteContemNumerosException | CPFClienteDeveConterOnzeNumeros e) {
+                        System.err.println("ERRO: " + e.getMessage());
+                    }
+                    break;
+                case 9:
+                    System.out.println("\n--- Veículos Disponíveis ---");
+                    gerente.consultarModelosDisponiveis(concessionaria).forEach(System.out::println);
+                    break;
+                case 10:
+                    System.out.printf( "\n---Forma de pagamento---\n");
+                    System.out.printf( "1. Dinheiro\n");
+                    System.out.printf( "2. Cartão de Débito\n");
+                    System.out.printf( "3. Cartão de Crédito\n");
+                    System.out.printf( "4. PIX\n");
+                    System.out.printf( "5. Boleto\n");
+                
+                    try {
+                        String cpfClienteVenda = Terminal.lerString("CPF do cliente para venda: ");
+                        Cliente clienteVenda = concessionaria.buscarCliente(cpfClienteVenda);
+                        
+                        String modeloVenda = Terminal.lerString("Modelo do veículo para venda: ");
+                        int anoVenda = Terminal.lerInt("Ano do veículo: ");
+                        int opcaoPagamento = Terminal.lerInt("Escolha o ID da forma de pagamento (1-5): ");
+
+                        String metodoPagamentoVenda = "";
+                        Integer parcelas = null;
+                        switch (opcaoPagamento) {
+                            case 1 -> metodoPagamentoVenda = "DINHEIRO";
+                            case 2 -> metodoPagamentoVenda = "DEBITO";
+                            case 3 -> {
+                                metodoPagamentoVenda = "CREDITO";
+                                int p = Terminal.lerInt("Em quantas vezes? (1 a 24): ");
+                                if (p < 1 || p > 24) {
+                                    throw new ParcelasInvalidasException("Número de parcelas inválido: " + p + " (permitido: 1 a 24)");
+                                }
+                                parcelas = p;
+                            }
+                            case 4 -> metodoPagamentoVenda = "PIX";
+                            case 5 -> metodoPagamentoVenda = "BOLETO";
+                            default -> {
+                                System.out.println("Opção inválida.");
+                                break;
+                            }
+                        }
+
+                        if ("CREDITO".equals(metodoPagamentoVenda) && parcelas != null) {
+                            metodoPagamentoVenda = metodoPagamentoVenda + " " + parcelas + "x";
+                        }
+
+                        gerente.registrarVenda(concessionaria, clienteVenda, new Veiculo(modeloVenda, "", anoVenda, 0.0), metodoPagamentoVenda);
+                    } catch (ParcelasInvalidasException | ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                case 11:
+                    try {
+                        String cpfClienteAluguel = Terminal.lerString("CPF do cliente para aluguel: ");
+                        Cliente clienteAluguel = concessionaria.buscarCliente(cpfClienteAluguel);
+
+                        String modeloAluguel = Terminal.lerString("Modelo do veículo para aluguel: ");
+                        int anoAluguel = Terminal.lerInt("Ano do veículo: ");
+                        int diasAluguel = Terminal.lerInt("Dias de aluguel: ");
+                        String metodoPagamentoAluguel = Terminal.lerString("Método de pagamento: ");
+
+                        gerente.registrarAluguel(concessionaria, clienteAluguel, new Veiculo(modeloAluguel, "", anoAluguel, 0.0), metodoPagamentoAluguel, diasAluguel);
+                    } catch (ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                case 12:
+                    try {
+                        String cpfClienteRecomendacao = Terminal.lerString("CPF do cliente para recomendação: ");
+                        Cliente clienteRecomendacao = concessionaria.buscarCliente(cpfClienteRecomendacao);
+                        List<Veiculo> recomendados = gerente.recomendarVeiculos(concessionaria, clienteRecomendacao);
+                        System.out.println("Veículos recomendados:");
+                        if (recomendados.isEmpty()) {
+                            System.out.println("Nenhum veículo recomendado para este perfil.");
+                        } else {
+                            recomendados.forEach(System.out::println);
+                        }
+                    } catch (ClienteNaoEncontradoException e) {
+                        System.out.println("Erro: " + e.getMessage());
                     }
                     break;
                 case 0:

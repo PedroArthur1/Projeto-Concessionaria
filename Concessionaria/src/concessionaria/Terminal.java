@@ -10,7 +10,7 @@ public class Terminal {
 
     private static String lerLinha(String mensagem) {
         System.out.print(mensagem);
-        return scanner.nextLine().trim(); // sempre lê linha inteira e limpa
+        return scanner.nextLine().trim();
     }
 
     public static int lerOpcao() {
@@ -25,7 +25,7 @@ public class Terminal {
     }
 
     public static String lerString(String mensagem) {
-        return lerLinha(mensagem); // já vem com trim()
+        return lerLinha(mensagem); 
     }
 
     public static int lerInt(String mensagem) {
@@ -41,7 +41,7 @@ public class Terminal {
 
     public static double lerDouble(String mensagem) {
         while (true) {
-            String s = lerLinha(mensagem).replace(',', '.'); // aceita vírgula
+            String s = lerLinha(mensagem).replace(',', '.'); 
             try {
                 return Double.parseDouble(s);
             } catch (NumberFormatException e) {

@@ -1,32 +1,39 @@
 package transacoes;
-import java.time.LocalDate;
-
 import entidades.Cliente;
 import entidades.Veiculo;
+import java.time.LocalDate;
 
 public abstract class Transacao {
     protected Cliente cliente;
     protected Veiculo veiculo;
-    protected LocalDate data;
+    // Alteração: o nome do atributo era 'data' nos códigos anteriores
+    protected LocalDate dataTransacao; 
     protected String metodoPagamento;
 
     public Transacao(Cliente cliente, Veiculo veiculo, String metodoPagamento) {
         this.cliente = cliente;
         this.veiculo = veiculo;
-        this.data = LocalDate.now();
+        // Alteração: o atributo 'dataTransacao' é inicializado aqui
+        this.dataTransacao = LocalDate.now(); 
         this.metodoPagamento = metodoPagamento;
     }
 
-    // Getters
+    // Adicione este método getter
+    public LocalDate getDataTransacao() {
+        return dataTransacao;
+    }
+
+
     public Cliente getCliente() { return cliente; }
     public Veiculo getVeiculo() { return veiculo; }
-    public LocalDate getData() { return data; }
     public String getMetodoPagamento() { return metodoPagamento; }
 
     public abstract String getTipo();
 
     @Override
     public String toString() {
-        return "Cliente: " + cliente.getNome() + ", Veículo: " + veiculo.getModelo() + ", Data: " + data + ", Pagamento: " + metodoPagamento;
+        return "Cliente: " + cliente.getNome() + ", Veículo: " + veiculo.getModelo() + ", Data: " + dataTransacao + ", Pagamento: " + metodoPagamento;
     }
+
+
 }

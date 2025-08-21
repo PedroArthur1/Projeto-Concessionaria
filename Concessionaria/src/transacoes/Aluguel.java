@@ -1,19 +1,18 @@
 package transacoes;
-import java.time.LocalDate;
-
 import entidades.Cliente;
 import entidades.Veiculo;
+import java.time.LocalDate;
 
 public class Aluguel extends Transacao {
-    private LocalDate dataDevolucao;
-    private int diasAlugados;
+    private final LocalDate dataDevolucao;
+    private final int diasAlugados;
     private static final double VALOR_DIARIA = 150.0;
     private static final double MULTA_DIARIA = 50.0;
 
     public Aluguel(Cliente cliente, Veiculo veiculo, String metodoPagamento, int diasAlugados) {
         super(cliente, veiculo, metodoPagamento);
         this.diasAlugados = diasAlugados;
-        this.dataDevolucao = data.plusDays(diasAlugados);
+        this.dataDevolucao = dataTransacao.plusDays(diasAlugados);
     }
 
     public double calcularMulta(LocalDate dataDevolucaoReal) {
