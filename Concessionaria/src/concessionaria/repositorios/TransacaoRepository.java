@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import entidades.Cliente;
 import transacoes.Transacao;
-import entidades.Cliente;
 
 public class TransacaoRepository {
     private final List<Transacao> historicoTransacoes;
