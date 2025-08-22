@@ -101,7 +101,7 @@ public class Concessionaria {
         // O valor total será calculado internamente na classe Aluguel.
         Aluguel novoAluguel = new Aluguel(cliente, veiculoEmEstoque, metodoPagamento, dias);
         transacaoRepository.adicionar(novoAluguel);
-    
+        
         // Atualize o estado do veículo para ficar indisponível
         veiculoEmEstoque.setDisponivelParaAluguel(false);
         veiculoEmEstoque.setDisponivelApos(LocalDate.now().plusDays(dias));
@@ -169,10 +169,5 @@ public class Concessionaria {
 
     public List<Transacao> getHistoricoTransacoes() {
         return transacaoRepository.listarTodas();
-    }
-
-    public void adicionarVeiculo(Veiculo veiculo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'adicionarVeiculo'");
     }
 }

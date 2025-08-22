@@ -23,7 +23,6 @@ public abstract class Pessoa {
     public LocalDate getDataNascimento() { return dataNascimento; }
     public void setDataNascimento(LocalDate dataNascimento) { this.dataNascimento = dataNascimento; }
 
-    // A idade é calculada dinamicamente
     public int getIdade() {
         return Period.between(dataNascimento, LocalDate.now()).getYears();
     }

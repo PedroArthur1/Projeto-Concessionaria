@@ -26,7 +26,6 @@ public abstract class Transacao {
         this.concluida = true;
     }
 
-    // Adicione este método getter
     public LocalDate getDataTransacao() {
         return dataTransacao;
     }

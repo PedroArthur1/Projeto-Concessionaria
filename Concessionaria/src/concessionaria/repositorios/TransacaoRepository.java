@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import entidades.Cliente;
 import transacoes.Transacao;
 import entidades.Cliente;
 
@@ -25,7 +27,7 @@ public class TransacaoRepository {
                 .filter(t -> !t.getDataTransacao().isBefore(inicio) && !t.getDataTransacao().isAfter(fim))
                 .collect(Collectors.toList());
     }
-    
+
     public List<Transacao> listarPorCliente(Cliente cliente) {
         return historicoTransacoes.stream()
                 .filter(t -> t.getCliente().getCpf().equals(cliente.getCpf()))

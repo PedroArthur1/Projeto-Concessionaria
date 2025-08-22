@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Veiculo {
 
-    private int id; // Removido o final
+    private int id;
     private final String modelo;
     private final String marca;
     private final int ano;
