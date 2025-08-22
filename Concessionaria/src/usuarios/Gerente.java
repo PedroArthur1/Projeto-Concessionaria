@@ -1,7 +1,6 @@
 package usuarios;
 import concessionaria.Concessionaria;
 import entidades.Cliente;
-import entidades.Veiculo;
 import excessoes.VeiculoNaoEncontradoException;
 import excessoes.cliente.ClienteNaoEncontradoException;
 import excessoes.cliente.NomeDoClienteContemNumerosException;
@@ -15,8 +14,8 @@ public class Gerente extends Vendedor {
         super(nome, cpf, dataNascimento);
     }
 
-    public void adicionarVeiculo(Concessionaria concessionaria, Veiculo veiculo) { // a fachada gerente tem como atributo conssecionaria
-        concessionaria.adicionarVeiculo(veiculo);
+    public void adicionarVeiculo(Concessionaria concessionaria, String modelo, String marca, int ano, double preco) {
+        concessionaria.adicionarVeiculo(modelo, marca, ano, preco);
     }
 
     public void removerVeiculo(Concessionaria concessionaria, String modelo) throws VeiculoNaoEncontradoException {

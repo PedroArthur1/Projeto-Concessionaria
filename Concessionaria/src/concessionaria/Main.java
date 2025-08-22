@@ -4,6 +4,7 @@ import entidades.Veiculo;
 import excessoes.ParcelasInvalidasException;
 import excessoes.VeiculoNaoEncontradoException;
 import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
+import excessoes.cliente.CPFDeveSerUnicoException;
 import excessoes.cliente.ClienteNaoEncontradoException;
 import excessoes.cliente.NomeDoClienteContemNumerosException;
 import java.time.LocalDate;
@@ -17,16 +18,16 @@ import concessionaria.repositorios.VeiculoRepository;
 
 
 public class Main {
-    public static void main(String[] args) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros {
+    public static void main(String[] args) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros, CPFDeveSerUnicoException {
         Concessionaria minhaConcessionaria = new Concessionaria();
         Gerente gerente = new Gerente("João Gerente", "11122233344", LocalDate.of(1974, 3, 5));
         Vendedor vendedor = new Vendedor("Maria Vendedora", "55566677788", LocalDate.of(1989, 3, 20));
         
         
-        minhaConcessionaria.adicionarVeiculo(new Veiculo("Onix", "Chevrolet", 2023, 75000.00));
-        minhaConcessionaria.adicionarVeiculo(new Veiculo("Corolla", "Toyota", 2024, 180000.00));
-        minhaConcessionaria.adicionarVeiculo(new Veiculo("Gol", "Volkswagen", 2015, 45000.00));
-        minhaConcessionaria.adicionarCliente(new Cliente("Ana Silva", "99988877766", LocalDate.of(1993, 3, 5)));
+        minhaConcessionaria.adicionarVeiculo("Onix", "Chevrolet", 2023, 75000.00);
+        minhaConcessionaria.adicionarVeiculo("Corolla", "Toyota", 2024, 180000.00); // criado direto no repositorio
+        minhaConcessionaria.adicionarVeiculo("Gol", "Volkswagen", 2015, 45000.00);
+        minhaConcessionaria.adicionarCliente(new Cliente("Ana Silva", "99988877766", LocalDate.of(1993, 3, 5))); // necessario criar cliente direto no repositorio no lugar da main
         minhaConcessionaria.adicionarCliente(new Cliente("Carlos Souza", "12345678900", LocalDate.of(2003, 3, 5)));
 
         int opcao = -1;
@@ -58,7 +59,7 @@ public class Main {
         }
     }
 
-    public static void menuVendedor(Vendedor vendedor, Concessionaria concessionaria) throws NomeDoClienteContemNumerosException {
+    public static void menuVendedor(Vendedor vendedor, Concessionaria concessionaria) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros, CPFDeveSerUnicoException {
         int opcao = -1;
         while (opcao != 0) {
             System.out.println("\n--- Menu do Vendedor ---");
@@ -67,6 +68,7 @@ public class Main {
             System.out.println("3. Registrar Venda");
             System.out.println("4. Registrar Aluguel");
             System.out.println("5. Recomendar Veículo");
+            System.out.println("6. Devolver Veículo");
             System.out.println("0. Voltar");
             
             opcao = Terminal.lerInt("Escolha uma opção: ");
@@ -79,7 +81,7 @@ public class Main {
                     try{
                         vendedor.cadastrarCliente(concessionaria, new Cliente(nome, cpf, dataNascimento));
                     } 
-                    catch(NomeDoClienteContemNumerosException | CPFClienteDeveConterOnzeNumeros e){
+                    catch(NomeDoClienteContemNumerosException | CPFClienteDeveConterOnzeNumeros | CPFDeveSerUnicoException e){
                         System.err.println("ERRO: " + e.getMessage());
                     }
                 }
@@ -177,6 +179,17 @@ public class Main {
                         System.out.println("Erro: " + e.getMessage());
                     }
                 }
+                case 6 -> {
+                    try {
+                        String modeloDevolver = Terminal.lerString("Modelo do veículo para devolver: ");
+                        int anoDevolver = Terminal.lerInt("Ano do veículo: ");
+                        LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
+                        
+                        vendedor.devolverVeiculo(concessionaria, modeloDevolver, anoDevolver, dataDevolucaoReal);
+                    } catch (VeiculoNaoEncontradoException e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                break; }
                 case 0 -> System.out.println("Voltando ao menu principal...");
                 default -> System.out.println("Opção inválida. Tente novamente.");
             }
@@ -203,19 +216,19 @@ public class Main {
             System.out.println("10. Registrar Venda");
             System.out.println("11. Registrar Aluguel");
             System.out.println("12. Recomendar Veículo");
+            System.out.println("13. Devolver Veículo");
             
             System.out.println("0. Voltar");
             
             opcao = Terminal.lerInt("Escolha uma opção: ");
             
             switch (opcao) {
-                // Ações de Gerente
                 case 1:
                     String modeloAdd = Terminal.lerString("Modelo do veículo: ");
                     String marcaAdd = Terminal.lerString("Marca do veículo: ");
                     int anoAdd = Terminal.lerInt("Ano do veículo: ");
                     double precoAdd = Terminal.lerDouble("Preço do veículo: ");
-                    gerente.adicionarVeiculo(concessionaria, new Veiculo(modeloAdd, marcaAdd, anoAdd, precoAdd));
+                    gerente.adicionarVeiculo(concessionaria, modeloAdd, marcaAdd, anoAdd, precoAdd);
                     break;
                 case 2:
                     try {
@@ -279,7 +292,7 @@ public class Main {
                     LocalDate dataNascimento = Terminal.lerData("Data de nascimento do cliente: ");
                     try {
                         gerente.cadastrarCliente(concessionaria, new Cliente(nome, cpf, dataNascimento));
-                    } catch (NomeDoClienteContemNumerosException | CPFClienteDeveConterOnzeNumeros e) {
+                    } catch (NomeDoClienteContemNumerosException | CPFClienteDeveConterOnzeNumeros | CPFDeveSerUnicoException e) {
                         System.err.println("ERRO: " + e.getMessage());
                     }
                     break;
@@ -360,6 +373,17 @@ public class Main {
                             recomendados.forEach(System.out::println);
                         }
                     } catch (ClienteNaoEncontradoException e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                case 13: // Novo caso para a devolução
+                    try {
+                        String modeloDevolver = Terminal.lerString("Modelo do veículo para devolver: ");
+                        int anoDevolver = Terminal.lerInt("Ano do veículo: ");
+                        LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
+
+                        gerente.devolverVeiculo(concessionaria, modeloDevolver, anoDevolver, dataDevolucaoReal);
+                    } catch (VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
                     break;

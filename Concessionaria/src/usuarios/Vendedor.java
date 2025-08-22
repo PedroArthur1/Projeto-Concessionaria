@@ -4,6 +4,7 @@ import entidades.Cliente;
 import entidades.Veiculo;
 import excessoes.VeiculoNaoEncontradoException;
 import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
+import excessoes.cliente.CPFDeveSerUnicoException;
 import excessoes.cliente.NomeDoClienteContemNumerosException;
 
 import java.time.LocalDate;
@@ -15,7 +16,7 @@ public class Vendedor extends Funcionario {
         super(nome, cpf, dataNascimento);
     }
 
-    public void cadastrarCliente(Concessionaria concessionaria, Cliente cliente) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros {
+    public void cadastrarCliente(Concessionaria concessionaria, Cliente cliente) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros, CPFDeveSerUnicoException {
         concessionaria.adicionarCliente(cliente);
         System.out.println("Cliente " + cliente.getNome() + " cadastrado com sucesso.");
     }
@@ -30,6 +31,10 @@ public class Vendedor extends Funcionario {
 
     public void registrarAluguel(Concessionaria concessionaria, Cliente cliente, Veiculo veiculo, String metodoPagamento, int dias) throws VeiculoNaoEncontradoException {
         concessionaria.registrarAluguel(cliente, veiculo, metodoPagamento, dias);
+    }
+
+    public void devolverVeiculo(Concessionaria concessionaria, String modelo, int ano, LocalDate dataDevolucaoReal) throws VeiculoNaoEncontradoException{
+        concessionaria.devolverVeiculo(modelo, ano, dataDevolucaoReal);
     }
     
     public List<Veiculo> recomendarVeiculos(Concessionaria concessionaria, Cliente cliente) {
