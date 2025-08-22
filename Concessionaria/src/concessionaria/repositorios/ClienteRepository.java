@@ -3,6 +3,7 @@ package concessionaria.repositorios;
 import entidades.Cliente;
 import excessoes.cliente.ClienteNaoEncontradoException;
 import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
+import excessoes.cliente.CPFDeveSerUnicoException;
 import excessoes.cliente.NomeDoClienteContemNumerosException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +16,17 @@ public class ClienteRepository {
     }
     
     // Método para adicionar cliente com validações
-    public void adicionar(Cliente cliente) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros {
+    public void adicionar(Cliente cliente) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros, CPFDeveSerUnicoException {
         if (cliente.getNome().matches(".*\\d.*")) {
             throw new NomeDoClienteContemNumerosException("O nome do cliente não pode conter números.");
         }
         if (cliente.getCpf().length() != 11) {
             throw new CPFClienteDeveConterOnzeNumeros("O CPF do cliente deve conter 11 números.");
+        }
+        for (Cliente c : this.clientes) {
+            if (c.getCpf().equals(cliente.getCpf())) {
+                throw new CPFDeveSerUnicoException("O CPF " + cliente.getCpf() + " já está cadastrado.");
+            }
         }
         this.clientes.add(cliente);
     }
