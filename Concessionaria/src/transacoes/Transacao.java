@@ -37,6 +37,8 @@ public abstract class Transacao {
 
     public abstract String getTipo();
 
+    public abstract double getValorTransacao();
+
     @Override
     public String toString() {
         return "Cliente: " + cliente.getNome() + ", Veículo: " + veiculo.getModelo() + ", Data: " + dataTransacao + ", Pagamento: " + metodoPagamento;

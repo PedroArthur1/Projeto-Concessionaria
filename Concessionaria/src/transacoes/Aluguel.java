@@ -39,6 +39,11 @@ public class Aluguel extends Transacao {
     }
 
     @Override
+    public double getValorTransacao() {
+        return valorTotal;
+    }
+
+    @Override
     public String getTipo() {
         return "Aluguel";
     }

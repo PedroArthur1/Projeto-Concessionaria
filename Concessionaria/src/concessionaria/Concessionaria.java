@@ -75,7 +75,22 @@ public class Concessionaria {
     
     // Métodos para delegar a responsabilidade ao TransacaoRepository
     public List<Transacao> gerarRelatorio(LocalDate dataInicio, LocalDate dataFim) {
-        return transacaoRepository.listarPorPeriodo(dataInicio, dataFim);
+        List<Transacao> transacoes = transacaoRepository.listarPorPeriodo(dataInicio, dataFim);
+        
+        // Crie uma variável para somar o total
+        double totalTransacoes = 0;
+        
+        // Itere sobre as transações e some os valores
+        for(Transacao t : transacoes) {
+            totalTransacoes += t.getValorTransacao();
+        }
+        
+        // Exiba o valor total
+        System.out.println("-------------------------------------");
+        System.out.println("Valor total das transações no período: R$" + String.format("%.2f", totalTransacoes));
+        System.out.println("-------------------------------------");
+        
+        return transacoes;
     }
 
     public void registrarVenda(Cliente cliente, Veiculo veiculo, String metodoPagamento) throws VeiculoNaoEncontradoException {

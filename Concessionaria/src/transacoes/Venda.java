@@ -11,6 +11,11 @@ public class Venda extends Transacao {
     public String getTipo() {
         return "Venda";
     }
+    
+    @Override
+    public double getValorTransacao() {
+        return veiculo.getPreco();
+    }
 
     @Override
     public String toString() {
