@@ -110,7 +110,7 @@ public class Concessionaria {
         // Apenas ajuste a mensagem para incluir o valor total
         System.out.println("Aluguel registrado com sucesso para " + cliente.getNome() + " do veículo " + veiculo.getModelo() + " | Valor Total: R$" + String.format("%.2f", novoAluguel.getValorTotal()));
     }
-    public void devolverVeiculo(String modelo, int ano, LocalDate dataDevolucaoReal) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException {
+    public void devolverVeiculo(String modelo, int ano, LocalDate dataDevolucaoReal, double valorDano) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException {
     
         if (dataDevolucaoReal.isBefore(LocalDate.now())) {
             throw new DataDevolucaoInvalidaException("A data de devolução não pode ser anterior à data atual.");
@@ -141,7 +141,7 @@ public class Concessionaria {
         double multaPorAtraso = aluguelEmQuestao.calcularMulta(dataDevolucaoReal);
     
         // 4. (Opcional) Adicione um valor de dano
-        double valorDano = 0.0;
+        aluguelEmQuestao.setValorDano(valorDano);
         // Para simplificar, vamos pedir o valor de dano ao usuário no menu
         // ... no menu, você pode pedir para o gerente inserir um valor para danos
     

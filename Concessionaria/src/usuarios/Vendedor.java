@@ -34,8 +34,8 @@ public class Vendedor extends Funcionario {
         concessionaria.registrarAluguel(cliente, veiculo, metodoPagamento, dias);
     }
 
-    public void devolverVeiculo(Concessionaria concessionaria, String modelo, int ano, LocalDate dataDevolucaoReal) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException{
-        concessionaria.devolverVeiculo(modelo, ano, dataDevolucaoReal);
+    public void devolverVeiculo(Concessionaria concessionaria, String modelo, int ano, LocalDate dataDevolucaoReal, double valorDano) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException{
+        concessionaria.devolverVeiculo(modelo, ano, dataDevolucaoReal, valorDano);
     }
     
     public List<Veiculo> recomendarVeiculos(Concessionaria concessionaria, Cliente cliente) {

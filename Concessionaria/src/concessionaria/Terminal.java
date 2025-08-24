@@ -50,6 +50,12 @@ public class Terminal {
         }
     }
 
+    public static boolean lerSimNao(String mensagem) {
+        System.out.print(mensagem + " (S/N): ");
+        String resposta = scanner.nextLine().trim().toLowerCase();
+        return resposta.equals("s");
+    }
+
     public static LocalDate lerData(String mensagem) {
         while (true) {
             String s = lerLinha(mensagem + "(AAAA-MM-DD): ");

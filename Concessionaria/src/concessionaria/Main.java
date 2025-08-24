@@ -186,7 +186,13 @@ public class Main {
                         int anoDevolver = Terminal.lerInt("Ano do veículo: ");
                         LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
                         
-                        vendedor.devolverVeiculo(concessionaria, modeloDevolver, anoDevolver, dataDevolucaoReal);
+                        boolean houveDano = Terminal.lerSimNao("Ocorreram danos ao veículo?");
+                        double valorDano = 0.0;
+                        if (houveDano) {
+                            valorDano = 2500.00;
+                        }
+
+                        vendedor.devolverVeiculo(concessionaria, modeloDevolver, anoDevolver, dataDevolucaoReal, valorDano);
                     } catch (VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
@@ -383,7 +389,13 @@ public class Main {
                         int anoDevolver = Terminal.lerInt("Ano do veículo: ");
                         LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
 
-                        gerente.devolverVeiculo(concessionaria, modeloDevolver, anoDevolver, dataDevolucaoReal);
+                        boolean houveDano = Terminal.lerSimNao("Ocorreram danos ao veículo?");
+                        double valorDano = 0.0;
+                        if (houveDano) {
+                            valorDano = 2500.00;
+                        }
+
+                        gerente.devolverVeiculo(concessionaria, modeloDevolver, anoDevolver, dataDevolucaoReal, valorDano);
                     } catch (VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }

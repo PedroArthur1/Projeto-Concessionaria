@@ -7,6 +7,7 @@ public class Aluguel extends Transacao {
     private final LocalDate dataDevolucao;
     private final int diasAlugados;
     private double valorTotal;
+    private double valorDano;
     private static final double VALOR_DIARIA = 150.0;
     private static final double MULTA_DIARIA = 50.0;
 
@@ -33,6 +34,10 @@ public class Aluguel extends Transacao {
         return valorTotal;
     }
 
+    public void setValorDano(double valorDano) {
+        this.valorDano = valorDano;
+    }
+
     @Override
     public String getTipo() {
         return "Aluguel";
@@ -40,6 +45,6 @@ public class Aluguel extends Transacao {
 
     @Override
     public String toString() {
-        return "Tipo: Aluguel | " + super.toString() + " | Dias: " + diasAlugados + " | Devolução Prevista: " + dataDevolucao + " | Valor Total: " + valorTotal;
+        return "Tipo: Aluguel | " + super.toString() + " | Dias: " + diasAlugados + " | Devolução Prevista: " + dataDevolucao + " | Valor Total: R$" + String.format("%.2f", valorTotal);
     }
 }
