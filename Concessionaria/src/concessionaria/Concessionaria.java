@@ -1,6 +1,7 @@
 package concessionaria;
 import entidades.Cliente;
 import entidades.Veiculo;
+import excessoes.DataDevolucaoInvalidaException;
 import excessoes.VeiculoNaoEncontradoException;
 import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
 import excessoes.cliente.CPFDeveSerUnicoException;
@@ -109,8 +110,12 @@ public class Concessionaria {
         // Apenas ajuste a mensagem para incluir o valor total
         System.out.println("Aluguel registrado com sucesso para " + cliente.getNome() + " do veículo " + veiculo.getModelo() + " | Valor Total: R$" + String.format("%.2f", novoAluguel.getValorTotal()));
     }
-    public void devolverVeiculo(String modelo, int ano, LocalDate dataDevolucaoReal) throws VeiculoNaoEncontradoException {
+    public void devolverVeiculo(String modelo, int ano, LocalDate dataDevolucaoReal) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException {
     
+        if (dataDevolucaoReal.isBefore(LocalDate.now())) {
+            throw new DataDevolucaoInvalidaException("A data de devolução não pode ser anterior à data atual.");
+        }
+
         Veiculo veiculoAlugado = veiculoRepository.buscar(modelo, ano);
 
         // 1. Verifique se o veículo está indisponível para devolução

@@ -2,6 +2,7 @@ package usuarios;
 import concessionaria.Concessionaria;
 import entidades.Cliente;
 import entidades.Veiculo;
+import excessoes.DataDevolucaoInvalidaException;
 import excessoes.VeiculoNaoEncontradoException;
 import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
 import excessoes.cliente.CPFDeveSerUnicoException;
@@ -33,7 +34,7 @@ public class Vendedor extends Funcionario {
         concessionaria.registrarAluguel(cliente, veiculo, metodoPagamento, dias);
     }
 
-    public void devolverVeiculo(Concessionaria concessionaria, String modelo, int ano, LocalDate dataDevolucaoReal) throws VeiculoNaoEncontradoException{
+    public void devolverVeiculo(Concessionaria concessionaria, String modelo, int ano, LocalDate dataDevolucaoReal) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException{
         concessionaria.devolverVeiculo(modelo, ano, dataDevolucaoReal);
     }
     

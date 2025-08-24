@@ -1,6 +1,7 @@
 package concessionaria;
 import entidades.Cliente;
 import entidades.Veiculo;
+import excessoes.DataDevolucaoInvalidaException;
 import excessoes.ParcelasInvalidasException;
 import excessoes.VeiculoNaoEncontradoException;
 import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
@@ -186,7 +187,7 @@ public class Main {
                         LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
                         
                         vendedor.devolverVeiculo(concessionaria, modeloDevolver, anoDevolver, dataDevolucaoReal);
-                    } catch (VeiculoNaoEncontradoException e) {
+                    } catch (VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
                 break; }
@@ -383,7 +384,7 @@ public class Main {
                         LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
 
                         gerente.devolverVeiculo(concessionaria, modeloDevolver, anoDevolver, dataDevolucaoReal);
-                    } catch (VeiculoNaoEncontradoException e) {
+                    } catch (VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
                     break;
