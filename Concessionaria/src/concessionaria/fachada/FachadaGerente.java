@@ -1,15 +1,15 @@
 package concessionaria.fachada;
-import java.time.LocalDate;
-import java.util.List;
-
 import concessionaria.negocio.entidades.Cliente;
 import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
 import concessionaria.negocio.excessoes.cliente.ClienteNaoEncontradoException;
 import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
 import concessionaria.negocio.transacoes.Transacao;
 
-public class Gerente extends Vendedor {
-    public Gerente(String nome, String cpf, LocalDate dataNascimento) {
+import java.time.LocalDate;
+import java.util.List;
+
+public class FachadaGerente extends FachadaVendedor {
+    public FachadaGerente(String nome, String cpf, LocalDate dataNascimento) {
         super(nome, cpf, dataNascimento);
     }
 

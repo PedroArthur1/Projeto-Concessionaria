@@ -12,8 +12,8 @@ import concessionaria.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
 import concessionaria.negocio.excessoes.cliente.CPFDeveSerUnicoException;
 import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
 
-public class Vendedor extends Funcionario {
-    public Vendedor(String nome, String cpf, LocalDate dataNascimento) {
+public class FachadaVendedor extends Funcionario {
+    public FachadaVendedor(String nome, String cpf, LocalDate dataNascimento) {
         super(nome, cpf, dataNascimento);
     }
 

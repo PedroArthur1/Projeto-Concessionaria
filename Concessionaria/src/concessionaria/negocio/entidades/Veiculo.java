@@ -21,7 +21,6 @@ public class Veiculo {
         this.disponivelApos = null;
     }
     
-    // Adicionado um construtor com o ID
     public Veiculo(int id, String modelo, String marca, int ano, double preco) {
         this.id = id;
         this.modelo = modelo;

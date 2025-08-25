@@ -1,27 +1,30 @@
 package concessionaria.ui;
 
-import negocio.entidades.Cliente;
-import negocio.entidades.Veiculo;
-import negocio.excessoes.DataDevolucaoInvalidaException;
-import negocio.excessoes.ParcelasInvalidasException;
-import negocio.excessoes.VeiculoNaoEncontradoException;
-import negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
-import negocio.excessoes.cliente.CPFDeveSerUnicoException;
-import negocio.excessoes.cliente.ClienteNaoEncontradoException;
-import negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
+import concessionaria.fachada.Concessionaria;
+import concessionaria.main.Terminal;
+import concessionaria.negocio.entidades.Cliente;
+import concessionaria.negocio.entidades.Veiculo;
+import concessionaria.negocio.excessoes.DataDevolucaoInvalidaException;
+import concessionaria.negocio.excessoes.ParcelasInvalidasException;
+import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
+import concessionaria.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
+import concessionaria.negocio.excessoes.cliente.CPFDeveSerUnicoException;
+import concessionaria.negocio.excessoes.cliente.ClienteNaoEncontradoException;
+import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
+import concessionaria.negocio.transacoes.Transacao;
+import concessionaria.fachada.FachadaGerente;
+import concessionaria.fachada.FachadaVendedor;
+
 import java.time.LocalDate;
 import java.util.List;
-import negocio.transacoes.Transacao;
-import fachada.Gerente;
-import fachada.Vendedor;
 
 public class MenuPrincipal {
 
     private Concessionaria concessionaria;
-    private Gerente gerente;
-    private Vendedor vendedor;
+    private FachadaGerente gerente;
+    private FachadaVendedor vendedor;
 
-    public MenuPrincipal(Concessionaria concessionaria, Gerente gerente, Vendedor vendedor) {
+    public MenuPrincipal(Concessionaria concessionaria, FachadaGerente gerente, FachadaVendedor vendedor) {
         this.concessionaria = concessionaria;
         this.gerente = gerente;
         this.vendedor = vendedor;
@@ -189,12 +192,12 @@ public class MenuPrincipal {
                         System.out.println("Erro: " + e.getMessage());
                     }
                     break;
+                }
                 case 0 -> System.out.println("Voltando ao menu principal...");
                 default -> System.out.println("Opção inválida. Tente novamente.");
             }
         }
     }
-
     private void menuGerente() {
         int opcao = -1;
         while (opcao != 0) {

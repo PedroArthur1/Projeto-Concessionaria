@@ -1,19 +1,19 @@
 package concessionaria.main;
 import concessionaria.ui.MenuPrincipal; // Importar a nova classe
-import negocio.entidades.Cliente;
-import negocio.entidades.Veiculo;
-import negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
-import negocio.excessoes.cliente.CPFDeveSerUnicoException;
-import negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
+import concessionaria.negocio.entidades.Cliente;
+import concessionaria.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
+import concessionaria.negocio.excessoes.cliente.CPFDeveSerUnicoException;
+import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
 import java.time.LocalDate;
-import fachada.Gerente;
-import fachada.Vendedor;
+import concessionaria.fachada.Concessionaria;
+import concessionaria.fachada.FachadaGerente;
+import concessionaria.fachada.FachadaVendedor;
 
 public class Main {
     public static void main(String[] args) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros, CPFDeveSerUnicoException {
         Concessionaria minhaConcessionaria = new Concessionaria();
-        Gerente gerente = new Gerente("João Gerente", "11122233344", LocalDate.of(1974, 3, 5));
-        Vendedor vendedor = new Vendedor("Maria Vendedora", "55566677788", LocalDate.of(1989, 3, 20));
+        FachadaGerente gerente = new FachadaGerente("João Gerente", "11122233344", LocalDate.of(1974, 3, 5));
+        FachadaVendedor vendedor = new FachadaVendedor("Maria Vendedora", "55566677788", LocalDate.of(1989, 3, 20));
         
         // Adicionar dados iniciais
         minhaConcessionaria.adicionarVeiculo("Onix", "Chevrolet", 2023, 75000.00);

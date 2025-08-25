@@ -1,7 +1,4 @@
 package concessionaria.fachada;
-import java.time.LocalDate;
-import java.util.List;
-
 import concessionaria.dados.repositorios.ClienteRepository;
 import concessionaria.dados.repositorios.TransacaoRepository;
 import concessionaria.dados.repositorios.VeiculoRepository;
@@ -16,6 +13,8 @@ import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosExcept
 import concessionaria.negocio.transacoes.Aluguel;
 import concessionaria.negocio.transacoes.Transacao;
 import concessionaria.negocio.transacoes.Venda;
+import java.time.LocalDate;
+import java.util.List;
 
 public class Concessionaria {
     private final ClienteRepository clienteRepository;
