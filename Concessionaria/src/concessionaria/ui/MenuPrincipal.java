@@ -1,5 +1,6 @@
 package concessionaria.ui;
 
+// import concessionaria.dados.repositorios.VeiculoRepository;
 import concessionaria.fachada.Concessionaria;
 import concessionaria.main.Terminal;
 import concessionaria.negocio.entidades.Cliente;
@@ -23,6 +24,7 @@ public class MenuPrincipal {
     private Concessionaria concessionaria;
     private FachadaGerente gerente;
     private FachadaVendedor vendedor;
+    
 
     public MenuPrincipal(Concessionaria concessionaria, FachadaGerente gerente, FachadaVendedor vendedor) {
         this.concessionaria = concessionaria;
@@ -90,12 +92,7 @@ public class MenuPrincipal {
                     vendedor.consultarModelosDisponiveis(concessionaria).forEach(System.out::println);
                 }
                 case 3 -> {
-                    System.out.printf("\n---Forma de pagamento---\n");
-                    System.out.printf("1. Dinheiro\n");
-                    System.out.printf("2. Cartão de Débito\n");
-                    System.out.printf("3. Cartão de Crédito\n");
-                    System.out.printf("4. PIX\n");
-                    System.out.printf("5. Boleto\n");
+                    
 
                     try {
                         String cpfClienteVenda = Terminal.lerString("CPF do cliente para venda: ");
@@ -104,16 +101,30 @@ public class MenuPrincipal {
                         String modeloVenda = Terminal.lerString("Modelo do veículo para venda: ");
                         int anoVenda = Terminal.lerInt("Ano do veículo: ");
 
+                        Veiculo veiculo = concessionaria.buscarVeiculo(modeloVenda, anoVenda);
+
+                        System.out.println("Veículo: " + veiculo.getModelo() + " " + veiculo.getAno() + "| Valor: " + veiculo.getPreco());
+
+                        System.out.printf("\n---Forma de pagamento---\n");
+                        System.out.printf("1. Dinheiro\n");
+                        System.out.printf("2. Cartão de Débito\n");
+                        System.out.printf("3. Cartão de Crédito\n");
+                        System.out.printf("4. PIX\n");
+                        System.out.printf("5. Boleto\n");
+
                         int opcaoPagamento = Terminal.lerInt("Escolha o ID da forma de pagamento (1-5): ");
 
                         String metodoPagamentoVenda = "";
                         Integer parcelas = null;
+                        double valorParcelas = 0.0;
+                        boolean isCredito = false;
 
                         switch (opcaoPagamento) {
                             case 1 -> metodoPagamentoVenda = "DINHEIRO";
                             case 2 -> metodoPagamentoVenda = "DEBITO";
                             case 3 -> {
                                 metodoPagamentoVenda = "CREDITO";
+                                isCredito=true;
                                 int p = Terminal.lerInt("Em quantas vezes? (1 a 24): ");
                                 if (p < 1 || p > 24) {
                                     throw new ParcelasInvalidasException(
@@ -121,6 +132,7 @@ public class MenuPrincipal {
                                     );
                                 }
                                 parcelas = p;
+                                valorParcelas = veiculo.getPreco()/p;
                             }
                             case 4 -> metodoPagamentoVenda = "PIX";
                             case 5 -> metodoPagamentoVenda = "BOLETO";
@@ -137,9 +149,13 @@ public class MenuPrincipal {
                         vendedor.registrarVenda(
                                 concessionaria,
                                 clienteVenda,
-                                new Veiculo(modeloVenda, "", anoVenda, 0.0),
+                                veiculo,
                                 metodoPagamentoVenda
                         );
+
+                        if (isCredito && parcelas != null) {
+                            System.out.printf("%d parcelas de R$ %.2f%n", parcelas, valorParcelas);
+                        }
 
                     } catch (ParcelasInvalidasException | ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
@@ -296,12 +312,6 @@ public class MenuPrincipal {
                     gerente.consultarModelosDisponiveis(concessionaria).forEach(System.out::println);
                     break;
                 case 10:
-                    System.out.printf("\n---Forma de pagamento---\n");
-                    System.out.printf("1. Dinheiro\n");
-                    System.out.printf("2. Cartão de Débito\n");
-                    System.out.printf("3. Cartão de Crédito\n");
-                    System.out.printf("4. PIX\n");
-                    System.out.printf("5. Boleto\n");
 
                     try {
                         String cpfClienteVenda = Terminal.lerString("CPF do cliente para venda: ");
@@ -309,20 +319,36 @@ public class MenuPrincipal {
 
                         String modeloVenda = Terminal.lerString("Modelo do veículo para venda: ");
                         int anoVenda = Terminal.lerInt("Ano do veículo: ");
+
+                        Veiculo veiculo = concessionaria.buscarVeiculo(modeloVenda, anoVenda);
+                        System.out.println("Veículo: " + veiculo.getModelo() + " " + veiculo.getAno() + "| Valor: " + veiculo.getPreco());
+
+                        System.out.printf("\n---Forma de pagamento---\n");
+                        System.out.printf("1. Dinheiro\n");
+                        System.out.printf("2. Cartão de Débito\n");
+                        System.out.printf("3. Cartão de Crédito\n");
+                        System.out.printf("4. PIX\n");
+                        System.out.printf("5. Boleto\n");
+
                         int opcaoPagamento = Terminal.lerInt("Escolha o ID da forma de pagamento (1-5): ");
 
                         String metodoPagamentoVenda = "";
                         Integer parcelas = null;
+                        double valorParcelas = 0.0;
+                        boolean isCredito = false; 
+
                         switch (opcaoPagamento) {
                             case 1 -> metodoPagamentoVenda = "DINHEIRO";
                             case 2 -> metodoPagamentoVenda = "DEBITO";
                             case 3 -> {
                                 metodoPagamentoVenda = "CREDITO";
+                                isCredito = true;
                                 int p = Terminal.lerInt("Em quantas vezes? (1 a 24): ");
                                 if (p < 1 || p > 24) {
                                     throw new ParcelasInvalidasException("Número de parcelas inválido: " + p + " (permitido: 1 a 24)");
                                 }
                                 parcelas = p;
+                                valorParcelas = veiculo.getPreco()/parcelas;
                             }
                             case 4 -> metodoPagamentoVenda = "PIX";
                             case 5 -> metodoPagamentoVenda = "BOLETO";
@@ -337,6 +363,11 @@ public class MenuPrincipal {
                         }
 
                         gerente.registrarVenda(concessionaria, clienteVenda, new Veiculo(modeloVenda, "", anoVenda, 0.0), metodoPagamentoVenda);
+
+                        if (isCredito && parcelas != null) {
+                            System.out.printf("Pagamento em %d parcelas de R$ %.2f%n", parcelas, valorParcelas);
+                        }
+
                     } catch (ParcelasInvalidasException | ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }

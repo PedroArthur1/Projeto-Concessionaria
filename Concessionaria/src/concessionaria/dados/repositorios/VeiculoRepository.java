@@ -9,16 +9,16 @@ import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
 
 public class VeiculoRepository {
     private final List<Veiculo> estoqueVeiculos;
-    private int proximoId; // Atributo para controlar o próximo ID
+    private int proximoId; 
 
     public VeiculoRepository() {
         this.estoqueVeiculos = new ArrayList<>();
-        this.proximoId = 1; // Começa a contagem a partir de 1
+        this.proximoId = 1; 
     }
     
     // Método para adicionar veículo
     public void adicionar(Veiculo veiculo) {
-        veiculo.setId(proximoId++); // Atribui o ID e incrementa o contador
+        veiculo.setId(proximoId++); 
         this.estoqueVeiculos.add(veiculo);
     }
     

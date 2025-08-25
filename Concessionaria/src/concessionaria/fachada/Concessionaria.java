@@ -27,11 +27,16 @@ public class Concessionaria {
         this.transacaoRepository = new TransacaoRepository();
     }
     
-    // Métodos para delegar a responsabilidade ao VeiculoRepository
+    // Método para adicionar veículo a veiculoRepository
     public void adicionarVeiculo(String modelo, String marca, int ano, double preco) {
         Veiculo novoVeiculo = new Veiculo(modelo, marca, ano, preco);
         veiculoRepository.adicionar(novoVeiculo);
         System.out.println("Veículo " + novoVeiculo.getModelo() + " adicionado ao estoque.");
+    }
+
+    // Método para buscar veículo em veiculoRepository
+    public Veiculo buscarVeiculo(String modelo, int ano) throws VeiculoNaoEncontradoException {
+        return veiculoRepository.buscar(modelo, ano);
     }
 
     public void removerVeiculo(String modelo) throws VeiculoNaoEncontradoException {
@@ -95,7 +100,7 @@ public class Concessionaria {
 
     public void registrarVenda(Cliente cliente, Veiculo veiculo, String metodoPagamento) throws VeiculoNaoEncontradoException {
         Veiculo veiculoEmEstoque = veiculoRepository.buscar(veiculo.getModelo(), veiculo.getAno());
-        
+    
         if (!veiculoEmEstoque.isDisponivelParaAluguel()) {
             throw new VeiculoNaoEncontradoException("Veículo " + veiculo.getModelo() + " não está disponível para venda pois está temporariamente alugado.");
         }
