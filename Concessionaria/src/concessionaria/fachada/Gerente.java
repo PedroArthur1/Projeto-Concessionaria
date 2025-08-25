@@ -1,13 +1,12 @@
-package usuarios;
-import concessionaria.Concessionaria;
-import entidades.Cliente;
-import excessoes.VeiculoNaoEncontradoException;
-import excessoes.cliente.ClienteNaoEncontradoException;
-import excessoes.cliente.NomeDoClienteContemNumerosException;
-
+package concessionaria.fachada;
 import java.time.LocalDate;
 import java.util.List;
-import transacoes.Transacao;
+
+import concessionaria.negocio.entidades.Cliente;
+import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
+import concessionaria.negocio.excessoes.cliente.ClienteNaoEncontradoException;
+import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
+import concessionaria.negocio.transacoes.Transacao;
 
 public class Gerente extends Vendedor {
     public Gerente(String nome, String cpf, LocalDate dataNascimento) {

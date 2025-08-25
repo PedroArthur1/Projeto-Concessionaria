@@ -1,4 +1,4 @@
-package concessionaria;
+package concessionaria.main;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

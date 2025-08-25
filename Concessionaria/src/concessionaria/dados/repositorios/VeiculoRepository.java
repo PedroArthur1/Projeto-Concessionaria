@@ -1,10 +1,11 @@
-package concessionaria.repositorios;
+package concessionaria.dados.repositorios;
 
-import entidades.Veiculo;
-import excessoes.VeiculoNaoEncontradoException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import concessionaria.negocio.entidades.Veiculo;
+import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
 
 public class VeiculoRepository {
     private final List<Veiculo> estoqueVeiculos;

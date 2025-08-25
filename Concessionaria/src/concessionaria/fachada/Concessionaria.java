@@ -1,20 +1,21 @@
-package concessionaria;
-import entidades.Cliente;
-import entidades.Veiculo;
-import excessoes.DataDevolucaoInvalidaException;
-import excessoes.VeiculoNaoEncontradoException;
-import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
-import excessoes.cliente.CPFDeveSerUnicoException;
-import excessoes.cliente.ClienteNaoEncontradoException;
-import excessoes.cliente.NomeDoClienteContemNumerosException;
+package concessionaria.fachada;
 import java.time.LocalDate;
 import java.util.List;
-import concessionaria.repositorios.ClienteRepository;
-import concessionaria.repositorios.TransacaoRepository;
-import concessionaria.repositorios.VeiculoRepository;
-import transacoes.Aluguel;
-import transacoes.Transacao;
-import transacoes.Venda;
+
+import concessionaria.dados.repositorios.ClienteRepository;
+import concessionaria.dados.repositorios.TransacaoRepository;
+import concessionaria.dados.repositorios.VeiculoRepository;
+import concessionaria.negocio.entidades.Cliente;
+import concessionaria.negocio.entidades.Veiculo;
+import concessionaria.negocio.excessoes.DataDevolucaoInvalidaException;
+import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
+import concessionaria.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
+import concessionaria.negocio.excessoes.cliente.CPFDeveSerUnicoException;
+import concessionaria.negocio.excessoes.cliente.ClienteNaoEncontradoException;
+import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
+import concessionaria.negocio.transacoes.Aluguel;
+import concessionaria.negocio.transacoes.Transacao;
+import concessionaria.negocio.transacoes.Venda;
 
 public class Concessionaria {
     private final ClienteRepository clienteRepository;

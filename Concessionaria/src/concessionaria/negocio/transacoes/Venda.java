@@ -1,6 +1,6 @@
-package transacoes;
-import entidades.Cliente;
-import entidades.Veiculo;
+package concessionaria.negocio.transacoes;
+import concessionaria.negocio.entidades.Cliente;
+import concessionaria.negocio.entidades.Veiculo;
 
 public class Venda extends Transacao {
     public Venda(Cliente cliente, Veiculo veiculo, String metodoPagamento) {

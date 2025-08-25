@@ -1,7 +1,8 @@
-package transacoes;
-import entidades.Cliente;
-import entidades.Veiculo;
+package concessionaria.negocio.transacoes;
 import java.time.LocalDate;
+
+import concessionaria.negocio.entidades.Cliente;
+import concessionaria.negocio.entidades.Veiculo;
 
 public class Aluguel extends Transacao {
     private final LocalDate dataDevolucao;

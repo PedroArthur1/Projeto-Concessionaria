@@ -1,12 +1,13 @@
-package concessionaria.repositorios;
+package concessionaria.dados.repositorios;
 
-import entidades.Cliente;
-import excessoes.cliente.ClienteNaoEncontradoException;
-import excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
-import excessoes.cliente.CPFDeveSerUnicoException;
-import excessoes.cliente.NomeDoClienteContemNumerosException;
 import java.util.ArrayList;
 import java.util.List;
+
+import concessionaria.negocio.entidades.Cliente;
+import concessionaria.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
+import concessionaria.negocio.excessoes.cliente.CPFDeveSerUnicoException;
+import concessionaria.negocio.excessoes.cliente.ClienteNaoEncontradoException;
+import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
 
 public class ClienteRepository {
     private final List<Cliente> clientes;
