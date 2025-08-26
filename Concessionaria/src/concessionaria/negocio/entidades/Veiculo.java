@@ -4,52 +4,60 @@ import java.time.LocalDate;
 
 public class Veiculo {
 
-    private int id;
+    private final String placa;
     private final String modelo;
     private final String marca;
     private final int ano;
     private double preco;
-    private boolean disponivelParaAluguel;
+    private String statusDisponibilidade;
     private LocalDate disponivelApos;
+    private double quilometragem; // Novo atributo
 
-    public Veiculo(String modelo, String marca, int ano, double preco) {
+    public Veiculo(String placa, String modelo, String marca, int ano, double preco, double quilometragem) {
+        this.placa = placa;
         this.modelo = modelo;
         this.marca = marca;
         this.ano = ano;
         this.preco = preco;
-        this.disponivelParaAluguel = true;
+        this.statusDisponibilidade = "Disponivel"; // Valor padrão
         this.disponivelApos = null;
+        this.quilometragem = quilometragem; // Novo atributo
     }
     
-    public Veiculo(int id, String modelo, String marca, int ano, double preco) {
-        this.id = id;
+    // Construtor para facilitar a edição
+    public Veiculo(String placa, String modelo, String marca, int ano, double preco) {
+        this.placa = placa;
         this.modelo = modelo;
         this.marca = marca;
         this.ano = ano;
         this.preco = preco;
-        this.disponivelParaAluguel = true;
+        this.statusDisponibilidade = "Disponivel";
         this.disponivelApos = null;
     }
 
-    public boolean isDisponivelParaAluguel() { return disponivelParaAluguel;}
-    public void setDisponivelParaAluguel(boolean disponivelParaAluguel) {this.disponivelParaAluguel = disponivelParaAluguel;}
-    public LocalDate getDisponivelApos() {return disponivelApos;}
-    public void setDisponivelApos(LocalDate disponivelApos) {this.disponivelApos = disponivelApos;}
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getStatusDisponibilidade() { return statusDisponibilidade; }
+    public void setStatusDisponibilidade(String statusDisponibilidade) { this.statusDisponibilidade = statusDisponibilidade; }
+    public LocalDate getDisponivelApos() { return disponivelApos; }
+    public void setDisponivelApos(LocalDate disponivelApos) { this.disponivelApos = disponivelApos; }
+    public String getPlaca() { return placa; } // Novo getter para a placa
     public String getModelo() { return modelo; }
     public String getMarca() { return marca; }
     public int getAno() { return ano; }
     public double getPreco() { return preco; }
     public void setPreco(double preco) { this.preco = preco; }
+    public double getQuilometragem() { return quilometragem; }
+    public void setQuilometragem(double quilometragem) { this.quilometragem = quilometragem; }
 
     @Override
     public String toString() {
-        return "ID: " + id +
+        return "Placa: " + placa +
                 " | Modelo: " + modelo +
                 " | Marca: " + marca +
                 " | Ano: " + ano +
                 " | Preço: R$" + String.format("%.2f", preco) +
-                " | Disponibilidade: " + disponivelParaAluguel;
+                " | Quilometragem: " + String.format("%.2f", quilometragem) + " Km" +
+                " | Disponibilidade: " + statusDisponibilidade;
     }
+
+
 }

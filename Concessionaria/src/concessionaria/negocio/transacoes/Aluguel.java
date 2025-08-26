@@ -41,7 +41,7 @@ public class Aluguel extends Transacao {
 
     @Override
     public double getValorTransacao() {
-        return valorTotal;
+        return valorTotal + valorDano;
     }
 
     @Override

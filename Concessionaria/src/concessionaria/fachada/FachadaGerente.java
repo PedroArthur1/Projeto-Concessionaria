@@ -1,5 +1,6 @@
 package concessionaria.fachada;
 import concessionaria.negocio.entidades.Cliente;
+import concessionaria.negocio.excessoes.PlacaDeveSerUnicaException;
 import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
 import concessionaria.negocio.excessoes.cliente.ClienteNaoEncontradoException;
 import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
@@ -11,14 +12,18 @@ import java.util.List;
 public class FachadaGerente extends FachadaVendedor {
     public FachadaGerente(String nome, String cpf, LocalDate dataNascimento) {
         super(nome, cpf, dataNascimento);
-    }
+    }    
 
-    public void adicionarVeiculo(Concessionaria concessionaria, String modelo, String marca, int ano, double preco) {
-        concessionaria.adicionarVeiculo(modelo, marca, ano, preco);
+    public void adicionarVeiculo(Concessionaria concessionaria, String placa, String modelo, String marca, int ano, double preco, double quilometragem) throws PlacaDeveSerUnicaException {
+        concessionaria.adicionarVeiculo(placa, modelo, marca, ano, preco, quilometragem);
     }
 
     public void removerVeiculo(Concessionaria concessionaria, String modelo) throws VeiculoNaoEncontradoException {
         concessionaria.removerVeiculo(modelo);
+    }
+
+    public void registrarAluguel(Concessionaria concessionaria, Cliente cliente, String placa, int dias, String metodoPagamento) throws VeiculoNaoEncontradoException {
+        concessionaria.registrarAluguel(cliente, placa, dias, metodoPagamento);
     }
 
     public void editarDadosVeiculo(Concessionaria concessionaria, String modelo, double novoPreco) throws VeiculoNaoEncontradoException {

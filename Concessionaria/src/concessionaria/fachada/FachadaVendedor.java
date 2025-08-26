@@ -1,16 +1,16 @@
 package concessionaria.fachada;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import concessionaria.negocio.entidades.Cliente;
-import concessionaria.negocio.entidades.Funcionario;
 import concessionaria.negocio.entidades.Veiculo;
+import concessionaria.negocio.entidades.Funcionario;
 import concessionaria.negocio.excessoes.DataDevolucaoInvalidaException;
 import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
 import concessionaria.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
 import concessionaria.negocio.excessoes.cliente.CPFDeveSerUnicoException;
 import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FachadaVendedor extends Funcionario {
     public FachadaVendedor(String nome, String cpf, LocalDate dataNascimento) {
@@ -26,16 +26,19 @@ public class FachadaVendedor extends Funcionario {
         return concessionaria.getEstoqueVeiculos();
     }
 
+    // Método ajustado para receber a placa e o objeto Veiculo
     public void registrarVenda(Concessionaria concessionaria, Cliente cliente, Veiculo veiculo, String metodoPagamento) throws VeiculoNaoEncontradoException {
-        concessionaria.registrarVenda(cliente, veiculo, metodoPagamento);
+        concessionaria.registrarVenda(cliente, veiculo.getPlaca(), metodoPagamento);
     }
 
-    public void registrarAluguel(Concessionaria concessionaria, Cliente cliente, Veiculo veiculo, String metodoPagamento, int dias) throws VeiculoNaoEncontradoException {
-        concessionaria.registrarAluguel(cliente, veiculo, metodoPagamento, dias);
+    // Método ajustado para receber a placa e os outros parâmetros
+    public void registrarAluguel(Concessionaria concessionaria, Cliente cliente, String placaAluguel, int diasAluguel, String metodoPagamentoAluguel) throws VeiculoNaoEncontradoException {
+        concessionaria.registrarAluguel(cliente, placaAluguel, diasAluguel, metodoPagamentoAluguel);
     }
-
-    public void devolverVeiculo(Concessionaria concessionaria, String modelo, int ano, LocalDate dataDevolucaoReal, double valorDano) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException{
-        concessionaria.devolverVeiculo(modelo, ano, dataDevolucaoReal, valorDano);
+    
+    // Método ajustado para receber a placa e os outros parâmetros
+    public void devolverVeiculo(Concessionaria concessionaria, String placa, LocalDate dataDevolucaoReal, double valorDano, double novaQuilometragem) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException{
+        concessionaria.devolverVeiculo(placa, dataDevolucaoReal, valorDano, novaQuilometragem);
     }
     
     public List<Veiculo> recomendarVeiculos(Concessionaria concessionaria, Cliente cliente) {

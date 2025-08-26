@@ -7,6 +7,7 @@ import concessionaria.negocio.entidades.Cliente;
 import concessionaria.negocio.entidades.Veiculo;
 import concessionaria.negocio.excessoes.DataDevolucaoInvalidaException;
 import concessionaria.negocio.excessoes.ParcelasInvalidasException;
+import concessionaria.negocio.excessoes.PlacaDeveSerUnicaException;
 import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
 import concessionaria.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
 import concessionaria.negocio.excessoes.cliente.CPFDeveSerUnicoException;
@@ -92,16 +93,12 @@ public class MenuPrincipal {
                     vendedor.consultarModelosDisponiveis(concessionaria).forEach(System.out::println);
                 }
                 case 3 -> {
-                    
-
                     try {
                         String cpfClienteVenda = Terminal.lerString("CPF do cliente para venda: ");
                         Cliente clienteVenda = concessionaria.buscarCliente(cpfClienteVenda);
 
-                        String modeloVenda = Terminal.lerString("Modelo do veículo para venda: ");
-                        int anoVenda = Terminal.lerInt("Ano do veículo: ");
-
-                        Veiculo veiculo = concessionaria.buscarVeiculo(modeloVenda, anoVenda);
+                        String placaVenda = Terminal.lerString("Placa do veículo para venda: ");
+                        Veiculo veiculo = concessionaria.buscarVeiculo(placaVenda);
 
                         System.out.println("Veículo: " + veiculo.getModelo() + " " + veiculo.getAno() + "| Valor: " + veiculo.getPreco());
 
@@ -127,9 +124,7 @@ public class MenuPrincipal {
                                 isCredito=true;
                                 int p = Terminal.lerInt("Em quantas vezes? (1 a 24): ");
                                 if (p < 1 || p > 24) {
-                                    throw new ParcelasInvalidasException(
-                                            "Número de parcelas inválido: " + p + " (permitido: 1 a 24)"
-                                    );
+                                    throw new ParcelasInvalidasException("Número de parcelas inválido: " + p + " (permitido: 1 a 24)");
                                 }
                                 parcelas = p;
                                 valorParcelas = veiculo.getPreco()/p;
@@ -146,15 +141,10 @@ public class MenuPrincipal {
                             metodoPagamentoVenda = metodoPagamentoVenda + " " + parcelas + "x";
                         }
 
-                        vendedor.registrarVenda(
-                                concessionaria,
-                                clienteVenda,
-                                veiculo,
-                                metodoPagamentoVenda
-                        );
+                        vendedor.registrarVenda(concessionaria, clienteVenda, veiculo, metodoPagamentoVenda);
 
                         if (isCredito && parcelas != null) {
-                            System.out.printf("%d parcelas de R$ %.2f%n", parcelas, valorParcelas);
+                            System.out.printf("Pagamento em %d parcelas de R$ %.2f%n", parcelas, valorParcelas);
                         }
 
                     } catch (ParcelasInvalidasException | ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
@@ -166,12 +156,11 @@ public class MenuPrincipal {
                         String cpfClienteAluguel = Terminal.lerString("CPF do cliente para aluguel: ");
                         Cliente clienteAluguel = concessionaria.buscarCliente(cpfClienteAluguel);
 
-                        String modeloAluguel = Terminal.lerString("Modelo do veículo para aluguel: ");
-                        int anoAluguel = Terminal.lerInt("Ano do veículo: ");
+                        String placaAluguel = Terminal.lerString("Placa do veículo para aluguel: ");
                         int diasAluguel = Terminal.lerInt("Dias de aluguel: ");
                         String metodoPagamentoAluguel = Terminal.lerString("Método de pagamento: ");
 
-                        vendedor.registrarAluguel(concessionaria, clienteAluguel, new Veiculo(modeloAluguel, "", anoAluguel, 0.0), metodoPagamentoAluguel, diasAluguel);
+                        vendedor.registrarAluguel(concessionaria, clienteAluguel, placaAluguel, diasAluguel, metodoPagamentoAluguel);
                     } catch (ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
@@ -193,8 +182,7 @@ public class MenuPrincipal {
                 }
                 case 6 -> {
                     try {
-                        String modeloDevolver = Terminal.lerString("Modelo do veículo para devolver: ");
-                        int anoDevolver = Terminal.lerInt("Ano do veículo: ");
+                        String placaDevolver = Terminal.lerString("Placa do veículo para devolver: ");
                         LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
 
                         boolean houveDano = Terminal.lerSimNao("Ocorreram danos ao veículo?");
@@ -202,12 +190,13 @@ public class MenuPrincipal {
                         if (houveDano) {
                             valorDano = 2500.00;
                         }
+                        
+                        double novaQuilometragem = Terminal.lerDouble("Quilometragem atual: ");
 
-                        vendedor.devolverVeiculo(concessionaria, modeloDevolver, anoDevolver, dataDevolucaoReal, valorDano);
+                        vendedor.devolverVeiculo(concessionaria, placaDevolver, dataDevolucaoReal, valorDano, novaQuilometragem);
                     } catch (VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
-                    break;
                 }
                 case 0 -> System.out.println("Voltando ao menu principal...");
                 default -> System.out.println("Opção inválida. Tente novamente.");
@@ -238,12 +227,19 @@ public class MenuPrincipal {
 
             switch (opcao) {
                 case 1:
-                    String modeloAdd = Terminal.lerString("Modelo do veículo: ");
-                    String marcaAdd = Terminal.lerString("Marca do veículo: ");
-                    int anoAdd = Terminal.lerInt("Ano do veículo: ");
-                    double precoAdd = Terminal.lerDouble("Preço do veículo: ");
-                    gerente.adicionarVeiculo(concessionaria, modeloAdd, marcaAdd, anoAdd, precoAdd);
-                    break;
+                String placaAdd = Terminal.lerString("Placa do veículo: ");
+                String modeloAdd = Terminal.lerString("Modelo do veículo: ");
+                String marcaAdd = Terminal.lerString("Marca do veículo: ");
+                int anoAdd = Terminal.lerInt("Ano do veículo: ");
+                double precoAdd = Terminal.lerDouble("Preço do veículo: ");
+                double quilometragemAdd = Terminal.lerDouble("Quilometragem do veículo: ");
+                
+                try {
+                    gerente.adicionarVeiculo(concessionaria, placaAdd, modeloAdd, marcaAdd, anoAdd, precoAdd, quilometragemAdd);
+                } catch (PlacaDeveSerUnicaException e) {
+                    System.out.println("Erro: " + e.getMessage());
+                }
+                break;
                 case 2:
                     try {
                         String modeloRemover = Terminal.lerString("Modelo do veículo para remover: ");
@@ -312,7 +308,6 @@ public class MenuPrincipal {
                     gerente.consultarModelosDisponiveis(concessionaria).forEach(System.out::println);
                     break;
                 case 10:
-
                     try {
                         String cpfClienteVenda = Terminal.lerString("CPF do cliente para venda: ");
                         Cliente clienteVenda = concessionaria.buscarCliente(cpfClienteVenda);
@@ -320,7 +315,7 @@ public class MenuPrincipal {
                         String modeloVenda = Terminal.lerString("Modelo do veículo para venda: ");
                         int anoVenda = Terminal.lerInt("Ano do veículo: ");
 
-                        Veiculo veiculo = concessionaria.buscarVeiculo(modeloVenda, anoVenda);
+                        Veiculo veiculo = concessionaria.buscarVeiculo(modeloVenda);
                         System.out.println("Veículo: " + veiculo.getModelo() + " " + veiculo.getAno() + "| Valor: " + veiculo.getPreco());
 
                         System.out.printf("\n---Forma de pagamento---\n");
@@ -348,21 +343,19 @@ public class MenuPrincipal {
                                     throw new ParcelasInvalidasException("Número de parcelas inválido: " + p + " (permitido: 1 a 24)");
                                 }
                                 parcelas = p;
-                                valorParcelas = veiculo.getPreco()/parcelas;
+                                valorParcelas = veiculo.getPreco() / parcelas;
                             }
                             case 4 -> metodoPagamentoVenda = "PIX";
                             case 5 -> metodoPagamentoVenda = "BOLETO";
-                            default -> {
-                                System.out.println("Opção inválida.");
-                                break;
-                            }
+                            default -> System.out.println("Opção inválida.");
                         }
 
                         if ("CREDITO".equals(metodoPagamentoVenda) && parcelas != null) {
                             metodoPagamentoVenda = metodoPagamentoVenda + " " + parcelas + "x";
                         }
 
-                        gerente.registrarVenda(concessionaria, clienteVenda, new Veiculo(modeloVenda, "", anoVenda, 0.0), metodoPagamentoVenda);
+                        // CORRIGIDO: usando diretamente o objeto encontrado
+                        gerente.registrarVenda(concessionaria, clienteVenda, veiculo, metodoPagamentoVenda);
 
                         if (isCredito && parcelas != null) {
                             System.out.printf("Pagamento em %d parcelas de R$ %.2f%n", parcelas, valorParcelas);
@@ -377,12 +370,12 @@ public class MenuPrincipal {
                         String cpfClienteAluguel = Terminal.lerString("CPF do cliente para aluguel: ");
                         Cliente clienteAluguel = concessionaria.buscarCliente(cpfClienteAluguel);
 
-                        String modeloAluguel = Terminal.lerString("Modelo do veículo para aluguel: ");
-                        int anoAluguel = Terminal.lerInt("Ano do veículo: ");
+                        String placaAluguel = Terminal.lerString("Placa do veículo para aluguel: ");
                         int diasAluguel = Terminal.lerInt("Dias de aluguel: ");
                         String metodoPagamentoAluguel = Terminal.lerString("Método de pagamento: ");
-
-                        gerente.registrarAluguel(concessionaria, clienteAluguel, new Veiculo(modeloAluguel, "", anoAluguel, 0.0), metodoPagamentoAluguel, diasAluguel);
+                        
+                        // CORREÇÃO: A chamada para o método agora corresponde à assinatura correta
+                        gerente.registrarAluguel(concessionaria, clienteAluguel, placaAluguel, diasAluguel, metodoPagamentoAluguel);
                     } catch (ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
@@ -404,8 +397,7 @@ public class MenuPrincipal {
                     break;
                 case 13:
                     try {
-                        String modeloDevolver = Terminal.lerString("Modelo do veículo para devolver: ");
-                        int anoDevolver = Terminal.lerInt("Ano do veículo: ");
+                        String placaDevolver = Terminal.lerString("Placa do veículo para devolver: ");
                         LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
 
                         boolean houveDano = Terminal.lerSimNao("Ocorreram danos ao veículo?");
@@ -414,7 +406,10 @@ public class MenuPrincipal {
                             valorDano = 2500.00;
                         }
 
-                        gerente.devolverVeiculo(concessionaria, modeloDevolver, anoDevolver, dataDevolucaoReal, valorDano);
+                        double novaQuilometragem = Terminal.lerDouble("Quilometragem atual: ");
+
+                        // chamada igual ao vendedor, mas usando gerente
+                        gerente.devolverVeiculo(concessionaria, placaDevolver, dataDevolucaoReal, valorDano, novaQuilometragem);
                     } catch (VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
