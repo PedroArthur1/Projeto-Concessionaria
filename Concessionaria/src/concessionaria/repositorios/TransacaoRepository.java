@@ -1,4 +1,4 @@
-package concessionaria.dados.repositorios;
+package concessionaria.repositorios;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

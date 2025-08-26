@@ -1,7 +1,4 @@
 package concessionaria.fachada;
-import concessionaria.dados.repositorios.ClienteRepository;
-import concessionaria.dados.repositorios.TransacaoRepository;
-import concessionaria.dados.repositorios.VeiculoRepository;
 import concessionaria.negocio.entidades.Cliente;
 import concessionaria.negocio.entidades.Veiculo;
 import concessionaria.negocio.excessoes.DataDevolucaoInvalidaException;
@@ -14,8 +11,15 @@ import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosExcept
 import concessionaria.negocio.transacoes.Aluguel;
 import concessionaria.negocio.transacoes.Transacao;
 import concessionaria.negocio.transacoes.Venda;
+import concessionaria.repositorios.ClienteRepository;
+import concessionaria.repositorios.TransacaoRepository;
+import concessionaria.repositorios.VeiculoRepository;
+
 import java.time.LocalDate;
 import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Concessionaria {
     private final ClienteRepository clienteRepository;
@@ -27,7 +31,46 @@ public class Concessionaria {
         this.veiculoRepository = new VeiculoRepository();
         this.transacaoRepository = new TransacaoRepository();
     }
-    
+
+public void carregarClientes(String arquivo) {
+    try {
+        List<String> linhas = Files.readAllLines(Paths.get(arquivo));
+        for (String linha : linhas) {
+            String[] dados = linha.split(",");
+            String nome = dados[0].trim();
+            String cpf = dados[1].trim();
+            LocalDate dataNascimento = LocalDate.parse(dados[2].trim());
+            adicionarCliente(new Cliente(nome, cpf, dataNascimento));
+        }
+        System.out.println("Clientes carregados do arquivo " + arquivo);
+    } catch (IOException e) {
+        System.err.println("Erro ao ler o arquivo de clientes: " + e.getMessage());
+    } catch (Exception e) {
+        System.err.println("Erro ao processar dados do cliente: " + e.getMessage());
+    }
+}
+
+public void carregarVeiculos(String arquivo) {
+    try {
+        List<String> linhas = Files.readAllLines(Paths.get(arquivo));
+        for (String linha : linhas) {
+            String[] dados = linha.split(",");
+            String placa = dados[0].trim();
+            String modelo = dados[1].trim();
+            String marca = dados[2].trim();
+            int ano = Integer.parseInt(dados[3].trim());
+            double preco = Double.parseDouble(dados[4].trim());
+            double quilometragem = Double.parseDouble(dados[5].trim());
+            adicionarVeiculo(placa, modelo, marca, ano, preco, quilometragem);
+        }
+        System.out.println("Veículos carregados do arquivo " + arquivo);
+    } catch (IOException e) {
+        System.err.println("Erro ao ler o arquivo de veículos: " + e.getMessage());
+    } catch (Exception e) {
+        System.err.println("Erro ao processar dados do veículo: " + e.getMessage());
+    }
+}
+
     // Adicionar veículo (com placa e quilometragem)
     public void adicionarVeiculo(String placa, String modelo, String marca, int ano, double preco, double quilometragem) throws PlacaDeveSerUnicaException {
         Veiculo novoVeiculo = new Veiculo(placa, modelo, marca, ano, preco, quilometragem);

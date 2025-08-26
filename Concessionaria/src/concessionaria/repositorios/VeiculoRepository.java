@@ -1,4 +1,4 @@
-package concessionaria.dados.repositorios;
+package concessionaria.repositorios;
 
 import java.util.ArrayList;
 import java.util.List;
