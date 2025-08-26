@@ -26,8 +26,9 @@ public class FachadaGerente extends FachadaVendedor {
         concessionaria.registrarAluguel(cliente, placa, dias, metodoPagamento);
     }
 
-    public void editarDadosVeiculo(Concessionaria concessionaria, String modelo, double novoPreco) throws VeiculoNaoEncontradoException {
-        concessionaria.editarDadosVeiculo(modelo, novoPreco);
+    public void editarDadosVeiculo(Concessionaria concessionaria, String placa, double novoPreco, String novaDisponibilidade) 
+            throws VeiculoNaoEncontradoException {
+        concessionaria.editarDadosVeiculo(placa, novoPreco, novaDisponibilidade);
     }
 
     public Cliente consultarCliente(Concessionaria concessionaria, String cpf) throws ClienteNaoEncontradoException {

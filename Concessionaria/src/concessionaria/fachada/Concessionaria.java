@@ -46,10 +46,11 @@ public class Concessionaria {
         System.out.println("Veículo com placa " + placa + " removido do estoque.");
     }
 
-    public void editarDadosVeiculo(String placa, double novoPreco) throws VeiculoNaoEncontradoException {
+    public void editarDadosVeiculo(String placa, double novoPreco, String novaDisponibilidade) throws VeiculoNaoEncontradoException {
         Veiculo veiculoParaEditar = veiculoRepository.buscarPorPlaca(placa);
         veiculoParaEditar.setPreco(novoPreco);
-        System.out.println("Dados do veículo " + veiculoParaEditar.getModelo() + " editados. Novo preço: R$" + String.format("%.2f", novoPreco));
+        veiculoParaEditar.setStatusDisponibilidade(novaDisponibilidade);
+    System.out.println("Dados do veículo " + veiculoParaEditar.getModelo() + " editados. Novo preço: R$" + String.format("%.2f", novoPreco) + "Disponibilidade: " + novaDisponibilidade);
     }
 
     // Métodos para delegar a responsabilidade ao ClienteRepository

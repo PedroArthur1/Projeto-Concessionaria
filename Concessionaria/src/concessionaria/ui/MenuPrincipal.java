@@ -248,15 +248,32 @@ public class MenuPrincipal {
                         System.out.println("Erro: " + e.getMessage());
                     }
                     break;
-                case 3:
-                    try {
-                        String modeloEditar = Terminal.lerString("Modelo do veículo para editar: ");
-                        double novoPreco = Terminal.lerDouble("Novo preço: ");
-                        gerente.editarDadosVeiculo(concessionaria, modeloEditar, novoPreco);
-                    } catch (VeiculoNaoEncontradoException e) {
-                        System.out.println("Erro: " + e.getMessage());
-                    }
-                    break;
+                    case 3:
+                        try {
+                            String placaEditar = Terminal.lerString("Placa do veículo para editar: ");
+                            double novoPreco = Terminal.lerDouble("Novo preço: ");
+
+                            System.out.println("Escolha a nova disponibilidade:");
+                            System.out.println("1 - DISPONÍVEL");
+                            System.out.println("2 - INDISPONÍVEL");
+                            System.out.println("3 - MANUTENÇÃO");
+
+                            int opcaoDisp = Terminal.lerInt("Digite a opção: ");
+                            String novaDisponibilidade = switch (opcaoDisp) {
+                                case 1 -> "DISPONIVEL";
+                                case 2 -> "INDISPONIVEL";
+                                case 3 -> "MANUTENCAO";
+                                default -> "DISPONIVEL"; // padrão caso o usuário digite inválido
+                            };
+
+                            gerente.editarDadosVeiculo(concessionaria, placaEditar, novoPreco, novaDisponibilidade);
+
+                            System.out.println("Veículo atualizado com sucesso!");
+                        } catch (VeiculoNaoEncontradoException e) {
+                            System.out.println("Erro: " + e.getMessage());
+                        }
+                        break;
+
                 case 4:
                     try {
                         String cpfConsultar = Terminal.lerString("CPF do cliente para consultar: ");
@@ -312,11 +329,10 @@ public class MenuPrincipal {
                         String cpfClienteVenda = Terminal.lerString("CPF do cliente para venda: ");
                         Cliente clienteVenda = concessionaria.buscarCliente(cpfClienteVenda);
 
-                        String modeloVenda = Terminal.lerString("Modelo do veículo para venda: ");
-                        int anoVenda = Terminal.lerInt("Ano do veículo: ");
+                        String placaVenda = Terminal.lerString("Placa do veículo para venda: ");
 
-                        Veiculo veiculo = concessionaria.buscarVeiculo(modeloVenda);
-                        System.out.println("Veículo: " + veiculo.getModelo() + " " + veiculo.getAno() + "| Valor: " + veiculo.getPreco());
+                        Veiculo veiculo = concessionaria.buscarVeiculo(placaVenda);
+                        System.out.println("Veículo: " + veiculo.getModelo() + " " + veiculo.getAno() + " | Valor: " + veiculo.getPreco());
 
                         System.out.printf("\n---Forma de pagamento---\n");
                         System.out.printf("1. Dinheiro\n");
@@ -330,7 +346,7 @@ public class MenuPrincipal {
                         String metodoPagamentoVenda = "";
                         Integer parcelas = null;
                         double valorParcelas = 0.0;
-                        boolean isCredito = false; 
+                        boolean isCredito = false;
 
                         switch (opcaoPagamento) {
                             case 1 -> metodoPagamentoVenda = "DINHEIRO";
@@ -354,7 +370,7 @@ public class MenuPrincipal {
                             metodoPagamentoVenda = metodoPagamentoVenda + " " + parcelas + "x";
                         }
 
-                        // CORRIGIDO: usando diretamente o objeto encontrado
+                        // usando diretamente o objeto encontrado
                         gerente.registrarVenda(concessionaria, clienteVenda, veiculo, metodoPagamentoVenda);
 
                         if (isCredito && parcelas != null) {
