@@ -50,13 +50,17 @@ public class Veiculo {
 
     @Override
     public String toString() {
+        String status = statusDisponibilidade;
+        if ("Indisponivel".equals(statusDisponibilidade) && disponivelApos != null) {
+            status += " até " + disponivelApos;
+        }
         return "Placa: " + placa +
                 " | Modelo: " + modelo +
                 " | Marca: " + marca +
                 " | Ano: " + ano +
                 " | Preço: R$" + String.format("%.2f", preco) +
                 " | Quilometragem: " + String.format("%.2f", quilometragem) + " Km" +
-                " | Disponibilidade: " + statusDisponibilidade;
+                " | Disponibilidade: " + status;
     }
 
 
