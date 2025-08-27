@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         Concessionaria minhaConcessionaria = new Concessionaria();
         FachadaGerente gerente = new FachadaGerente("João Gerente", "11122233344", LocalDate.of(1974, 3, 5));
-        FachadaVendedor vendedor = new FachadaVendedor("Maria Vendedora", "55566677788", LocalDate.of(1989, 3, 20));
+        FachadaVendedor vendedor = new FachadaVendedor("Maria Vendedora", "55566677788", LocalDate.of(1989, 3, 20)); // retirar isso urgente
         
         minhaConcessionaria.carregarVeiculos("C:\\Users\\eusin\\OneDrive\\Documentos\\GitHub\\Projeto-Concession-ria\\Concessionaria\\src\\concessionaria\\repositorios\\veiculos.txt");
         minhaConcessionaria.carregarClientes("C:\\Users\\eusin\\OneDrive\\Documentos\\GitHub\\Projeto-Concession-ria\\Concessionaria\\src\\concessionaria\\repositorios\\clientes.txt");
