@@ -102,69 +102,41 @@ public class MenuPrincipal {
 
                         System.out.println("Veículo: " + veiculo.getModelo() + " " + veiculo.getAno() + "| Valor: " + veiculo.getPreco());
 
-                        System.out.printf("\n---Forma de pagamento---\n");
-                        System.out.printf("1. Dinheiro\n");
-                        System.out.printf("2. Cartão de Débito\n");
-                        System.out.printf("3. Cartão de Crédito\n");
-                        System.out.printf("4. PIX\n");
-                        System.out.printf("5. Boleto\n");
+                        EscolhaPagamento pg = PagamentoUI.escolherPagamento(veiculo.getPreco());
 
-                        int opcaoPagamento = Terminal.lerInt("Escolha o ID da forma de pagamento (1-5): ");
+                        vendedor.registrarVenda(concessionaria, clienteVenda, veiculo, pg.getMetodo());
 
-                        String metodoPagamentoVenda = "";
-                        Integer parcelas = null;
-                        double valorParcelas = 0.0;
-                        boolean isCredito = false;
-
-                        switch (opcaoPagamento) {
-                            case 1 -> metodoPagamentoVenda = "DINHEIRO";
-                            case 2 -> metodoPagamentoVenda = "DEBITO";
-                            case 3 -> {
-                                metodoPagamentoVenda = "CREDITO";
-                                isCredito=true;
-                                int p = Terminal.lerInt("Em quantas vezes? (1 a 24): ");
-                                if (p < 1 || p > 24) {
-                                    throw new ParcelasInvalidasException("Número de parcelas inválido: " + p + " (permitido: 1 a 24)");
-                                }
-                                parcelas = p;
-                                valorParcelas = veiculo.getPreco()/p;
-                            }
-                            case 4 -> metodoPagamentoVenda = "PIX";
-                            case 5 -> metodoPagamentoVenda = "BOLETO";
-                            default -> {
-                                System.out.println("Opção inválida.");
-                                break;
-                            }
-                        }
-
-                        if ("CREDITO".equals(metodoPagamentoVenda) && parcelas != null) {
-                            metodoPagamentoVenda = metodoPagamentoVenda + " " + parcelas + "x";
-                        }
-
-                        vendedor.registrarVenda(concessionaria, clienteVenda, veiculo, metodoPagamentoVenda);
-
-                        if (isCredito && parcelas != null) {
-                            System.out.printf("Pagamento em %d parcelas de R$ %.2f%n", parcelas, valorParcelas);
+                        if (pg.isCredito()) {
+                            System.out.printf("Pagamento em %d parcelas de R$ %.2f%n", pg.getParcelas(), pg.getValorParcela());
                         }
 
                     } catch (ParcelasInvalidasException | ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
                 }
+
                 case 4 -> {
                     try {
-                        String cpfClienteAluguel = Terminal.lerString("CPF do cliente para aluguel: ");
-                        Cliente clienteAluguel = concessionaria.buscarCliente(cpfClienteAluguel);
+                        String cpfClienteVenda = Terminal.lerString("CPF do cliente para venda: ");
+                        Cliente clienteVenda = concessionaria.buscarCliente(cpfClienteVenda);
 
-                        String placaAluguel = Terminal.lerString("Placa do veículo para aluguel: ");
-                        int diasAluguel = Terminal.lerInt("Dias de aluguel: ");
-                        String metodoPagamentoAluguel = Terminal.lerString("Método de pagamento: ");
+                        String placaVenda = Terminal.lerString("Placa do veículo para venda: ");
+                        Veiculo veiculo = concessionaria.buscarVeiculo(placaVenda);
 
-                        vendedor.registrarAluguel(concessionaria, clienteAluguel, placaAluguel, diasAluguel, metodoPagamentoAluguel);
-                    } catch (ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
+                        System.out.println("Veículo: " + veiculo.getModelo() + " " + veiculo.getAno() + " | Valor: " + veiculo.getPreco());
+
+                        EscolhaPagamento pg = PagamentoUI.escolherPagamento(veiculo.getPreco());
+
+                        vendedor.registrarVenda(concessionaria, clienteVenda, veiculo, pg.getMetodo());
+
+                        if (pg.isCredito()) {
+                            System.out.printf("Pagamento em %d parcelas de R$ %.2f%n", pg.getParcelas(), pg.getValorParcela());
+                        }
+                    } catch (ParcelasInvalidasException | ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
                 }
+
                 case 5 -> {
                     try {
                         String cpfClienteRecomendacao = Terminal.lerString("CPF do cliente para recomendação: ");
@@ -324,78 +296,53 @@ public class MenuPrincipal {
                     System.out.println("\n--- Veículos Disponíveis ---");
                     gerente.consultarModelosDisponiveis(concessionaria).forEach(System.out::println);
                     break;
+                    
                 case 10:
                     try {
                         String cpfClienteVenda = Terminal.lerString("CPF do cliente para venda: ");
                         Cliente clienteVenda = concessionaria.buscarCliente(cpfClienteVenda);
 
                         String placaVenda = Terminal.lerString("Placa do veículo para venda: ");
-
                         Veiculo veiculo = concessionaria.buscarVeiculo(placaVenda);
                         System.out.println("Veículo: " + veiculo.getModelo() + " " + veiculo.getAno() + " | Valor: " + veiculo.getPreco());
 
-                        System.out.printf("\n---Forma de pagamento---\n");
-                        System.out.printf("1. Dinheiro\n");
-                        System.out.printf("2. Cartão de Débito\n");
-                        System.out.printf("3. Cartão de Crédito\n");
-                        System.out.printf("4. PIX\n");
-                        System.out.printf("5. Boleto\n");
+                        EscolhaPagamento pg = PagamentoUI.escolherPagamento(veiculo.getPreco());
 
-                        int opcaoPagamento = Terminal.lerInt("Escolha o ID da forma de pagamento (1-5): ");
+                        gerente.registrarVenda(concessionaria, clienteVenda, veiculo, pg.getMetodo());
 
-                        String metodoPagamentoVenda = "";
-                        Integer parcelas = null;
-                        double valorParcelas = 0.0;
-                        boolean isCredito = false;
-
-                        switch (opcaoPagamento) {
-                            case 1 -> metodoPagamentoVenda = "DINHEIRO";
-                            case 2 -> metodoPagamentoVenda = "DEBITO";
-                            case 3 -> {
-                                metodoPagamentoVenda = "CREDITO";
-                                isCredito = true;
-                                int p = Terminal.lerInt("Em quantas vezes? (1 a 24): ");
-                                if (p < 1 || p > 24) {
-                                    throw new ParcelasInvalidasException("Número de parcelas inválido: " + p + " (permitido: 1 a 24)");
-                                }
-                                parcelas = p;
-                                valorParcelas = veiculo.getPreco() / parcelas;
-                            }
-                            case 4 -> metodoPagamentoVenda = "PIX";
-                            case 5 -> metodoPagamentoVenda = "BOLETO";
-                            default -> System.out.println("Opção inválida.");
-                        }
-
-                        if ("CREDITO".equals(metodoPagamentoVenda) && parcelas != null) {
-                            metodoPagamentoVenda = metodoPagamentoVenda + " " + parcelas + "x";
-                        }
-
-                        // usando diretamente o objeto encontrado
-                        gerente.registrarVenda(concessionaria, clienteVenda, veiculo, metodoPagamentoVenda);
-
-                        if (isCredito && parcelas != null) {
-                            System.out.printf("Pagamento em %d parcelas de R$ %.2f%n", parcelas, valorParcelas);
+                        if (pg.isCredito()) {
+                            System.out.printf("Pagamento em %d parcelas de R$ %.2f%n", pg.getParcelas(), pg.getValorParcela());
                         }
 
                     } catch (ParcelasInvalidasException | ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
                     break;
+
                 case 11:
                     try {
                         String cpfClienteAluguel = Terminal.lerString("CPF do cliente para aluguel: ");
                         Cliente clienteAluguel = concessionaria.buscarCliente(cpfClienteAluguel);
 
                         String placaAluguel = Terminal.lerString("Placa do veículo para aluguel: ");
+                        Veiculo veiculo = concessionaria.buscarVeiculo(placaAluguel);
+
                         int diasAluguel = Terminal.lerInt("Dias de aluguel: ");
-                        String metodoPagamentoAluguel = Terminal.lerString("Método de pagamento: ");
-                        
-                        // CORREÇÃO: A chamada para o método agora corresponde à assinatura correta
-                        gerente.registrarAluguel(concessionaria, clienteAluguel, placaAluguel, diasAluguel, metodoPagamentoAluguel);
-                    } catch (ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
+
+                        // Usa o helper para escolher/validar pagamento
+                        EscolhaPagamento pg = PagamentoUI.escolherPagamento(veiculo.getPreco());
+
+                        gerente.registrarAluguel(concessionaria, clienteAluguel, placaAluguel, diasAluguel, pg.getMetodo());
+
+                        if (pg.isCredito()) {
+                            System.out.printf("Pagamento em %d parcelas de R$ %.2f%n", pg.getParcelas(), pg.getValorParcela());
+                        }
+
+                    } catch (ParcelasInvalidasException | ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
                     break;
+
                 case 12:
                     try {
                         String cpfClienteRecomendacao = Terminal.lerString("CPF do cliente para recomendação: ");
