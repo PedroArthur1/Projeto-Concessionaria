@@ -11,8 +11,8 @@ public class Main {
         FachadaGerente gerente = new FachadaGerente("João Gerente", "11122233344", LocalDate.of(1974, 3, 5));
         FachadaVendedor vendedor = new FachadaVendedor("Maria Vendedora", "55566677788", LocalDate.of(1989, 3, 20));
         
-        minhaConcessionaria.carregarVeiculos("C:\\Users\\eusin\\OneDrive\\Documentos\\GitHub\\Projeto-Concession-ria\\Concessionaria\\src\\concessionaria\\repositorios\\clientes.txt");
-        minhaConcessionaria.carregarClientes("C:\\Users\\eusin\\OneDrive\\Documentos\\GitHub\\Projeto-Concession-ria\\Concessionaria\\src\\concessionaria\\repositorios\\veiculos.txt");
+        minhaConcessionaria.carregarVeiculos("C:\\Users\\eusin\\OneDrive\\Documentos\\GitHub\\Projeto-Concession-ria\\Concessionaria\\src\\concessionaria\\repositorios\\veiculos.txt");
+        minhaConcessionaria.carregarClientes("C:\\Users\\eusin\\OneDrive\\Documentos\\GitHub\\Projeto-Concession-ria\\Concessionaria\\src\\concessionaria\\repositorios\\clientes.txt");
         // ------------ PARA TESTAR O CODIGO EM SEU COMPUTADOR VOCÊ DEVE MUDAR O CAMINHO DO ARQUIVO ☝️ PARA O CAMINHO QUE A PASTA DO PROJETO ESTÁ NO SEU COMPUTADOR -----------
         // ------------ ENTRE NO PACOTE REPOSITORIOS E COPIE O CAMINHO DOS ARQUIVOS TXT E COLE ANTES DE RODAR A MAIN --------------
 

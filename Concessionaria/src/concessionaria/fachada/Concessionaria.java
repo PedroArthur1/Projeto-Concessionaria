@@ -75,7 +75,7 @@ public void carregarVeiculos(String arquivo) {
     public void adicionarVeiculo(String placa, String modelo, String marca, int ano, double preco, double quilometragem) throws PlacaDeveSerUnicaException {
         Veiculo novoVeiculo = new Veiculo(placa, modelo, marca, ano, preco, quilometragem);
         veiculoRepository.adicionar(novoVeiculo);
-        System.out.println("Veículo " + novoVeiculo.getModelo() + " adicionado ao estoque.");
+        // System.out.println("Veículo " + novoVeiculo.getModelo() + " adicionado ao estoque.");
     }
 
     // Método para buscar veículo por placa
