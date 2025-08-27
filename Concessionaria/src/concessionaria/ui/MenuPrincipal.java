@@ -8,6 +8,7 @@ import concessionaria.negocio.entidades.Veiculo;
 import concessionaria.negocio.excessoes.DataDevolucaoInvalidaException;
 import concessionaria.negocio.excessoes.ParcelasInvalidasException;
 import concessionaria.negocio.excessoes.PlacaDeveSerUnicaException;
+import concessionaria.negocio.excessoes.QuilometragemMenorQueOriginalException;
 import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
 import concessionaria.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
 import concessionaria.negocio.excessoes.cliente.CPFDeveSerUnicoException;
@@ -117,21 +118,23 @@ public class MenuPrincipal {
 
                 case 4 -> {
                     try {
-                        String cpfClienteVenda = Terminal.lerString("CPF do cliente para venda: ");
-                        Cliente clienteVenda = concessionaria.buscarCliente(cpfClienteVenda);
+                        String cpfClienteAluguel = Terminal.lerString("CPF do cliente para aluguel: ");
+                        Cliente clienteAluguel = concessionaria.buscarCliente(cpfClienteAluguel);
 
-                        String placaVenda = Terminal.lerString("Placa do veículo para venda: ");
-                        Veiculo veiculo = concessionaria.buscarVeiculo(placaVenda);
+                        String placaAluguel = Terminal.lerString("Placa do veículo para aluguel: ");
+                        Veiculo veiculo = concessionaria.buscarVeiculo(placaAluguel);
 
-                        System.out.println("Veículo: " + veiculo.getModelo() + " " + veiculo.getAno() + " | Valor: " + veiculo.getPreco());
+                        int diasAluguel = Terminal.lerInt("Dias de aluguel: ");
 
+                        // Usa o helper para escolher/validar pagamento
                         EscolhaPagamento pg = PagamentoUI.escolherPagamento(veiculo.getPreco());
 
-                        vendedor.registrarVenda(concessionaria, clienteVenda, veiculo, pg.getMetodo());
+                        gerente.registrarAluguel(concessionaria, clienteAluguel, placaAluguel, diasAluguel, pg.getMetodo());
 
                         if (pg.isCredito()) {
                             System.out.printf("Pagamento em %d parcelas de R$ %.2f%n", pg.getParcelas(), pg.getValorParcela());
                         }
+
                     } catch (ParcelasInvalidasException | ClienteNaoEncontradoException | VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
@@ -156,6 +159,7 @@ public class MenuPrincipal {
                     try {
                         String placaDevolver = Terminal.lerString("Placa do veículo para devolver: ");
                         LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
+                        Veiculo veiculo = concessionaria.buscarVeiculo(placaDevolver);
 
                         boolean houveDano = Terminal.lerSimNao("Ocorreram danos ao veículo?");
                         double valorDano = 0.0;
@@ -165,8 +169,13 @@ public class MenuPrincipal {
                         
                         double novaQuilometragem = Terminal.lerDouble("Quilometragem atual: ");
 
+                        if(novaQuilometragem<veiculo.getQuilometragem()){
+                            throw new QuilometragemMenorQueOriginalException("Quilometragem atual menor do que a quilometragem anterior");
+                        }
+
                         vendedor.devolverVeiculo(concessionaria, placaDevolver, dataDevolucaoReal, valorDano, novaQuilometragem);
-                    } catch (VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
+                        
+                    } catch (QuilometragemMenorQueOriginalException | VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
                 }
@@ -232,10 +241,10 @@ public class MenuPrincipal {
 
                             int opcaoDisp = Terminal.lerInt("Digite a opção: ");
                             String novaDisponibilidade = switch (opcaoDisp) {
-                                case 1 -> "DISPONIVEL";
-                                case 2 -> "INDISPONIVEL";
-                                case 3 -> "MANUTENCAO";
-                                default -> "DISPONIVEL"; // padrão caso o usuário digite inválido
+                                case 1 -> "Disponivel";
+                                case 2 -> "Indisponivel";
+                                case 3 -> "Manuntecao";
+                                default -> "Disponivel"; // padrão caso o usuário digite inválido
                             };
 
                             gerente.editarDadosVeiculo(concessionaria, placaEditar, novoPreco, novaDisponibilidade);
@@ -362,6 +371,7 @@ public class MenuPrincipal {
                     try {
                         String placaDevolver = Terminal.lerString("Placa do veículo para devolver: ");
                         LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
+                        Veiculo veiculo = concessionaria.buscarVeiculo(placaDevolver); 
 
                         boolean houveDano = Terminal.lerSimNao("Ocorreram danos ao veículo?");
                         double valorDano = 0.0;
@@ -371,9 +381,13 @@ public class MenuPrincipal {
 
                         double novaQuilometragem = Terminal.lerDouble("Quilometragem atual: ");
 
+                        if(novaQuilometragem<veiculo.getQuilometragem()){
+                            throw new QuilometragemMenorQueOriginalException("Quilometragem atual menor do que a quilometragem anterior");
+                        }
+
                         // chamada igual ao vendedor, mas usando gerente
                         gerente.devolverVeiculo(concessionaria, placaDevolver, dataDevolucaoReal, valorDano, novaQuilometragem);
-                    } catch (VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
+                    } catch (QuilometragemMenorQueOriginalException | VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
                     break;

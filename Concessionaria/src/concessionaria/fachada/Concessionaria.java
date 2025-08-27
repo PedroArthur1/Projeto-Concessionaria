@@ -93,7 +93,7 @@ public void carregarVeiculos(String arquivo) {
         Veiculo veiculoParaEditar = veiculoRepository.buscarPorPlaca(placa);
         veiculoParaEditar.setPreco(novoPreco);
         veiculoParaEditar.setStatusDisponibilidade(novaDisponibilidade);
-    System.out.println("Dados do veículo " + veiculoParaEditar.getModelo() + " editados. Novo preço: R$" + String.format("%.2f", novoPreco) + "Disponibilidade: " + novaDisponibilidade);
+        System.out.println("Dados do veículo " + veiculoParaEditar.getModelo() + " editados. Novo preço: R$" + String.format("%.2f", novoPreco) + "Disponibilidade: " + novaDisponibilidade);
     }
 
     // Métodos para delegar a responsabilidade ao ClienteRepository
@@ -145,7 +145,7 @@ public void carregarVeiculos(String arquivo) {
         Veiculo veiculoEmEstoque = veiculoRepository.buscarPorPlaca(placa);
         
         if (!veiculoEmEstoque.getStatusDisponibilidade().equals("Disponivel")) {
-            throw new VeiculoNaoEncontradoException("Veículo " + veiculoEmEstoque.getModelo() + " não está disponível para venda pois está temporariamente alugado.");
+            throw new VeiculoNaoEncontradoException("Veículo " + veiculoEmEstoque.getModelo() + " está temporariamente indisponível.");
         }
 
         Venda novaVenda = new Venda(cliente, veiculoEmEstoque, metodoPagamento);
