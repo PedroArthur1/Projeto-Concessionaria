@@ -1,7 +1,7 @@
-package concessionaria.ui;
+package sistema.ui;
 
-import concessionaria.main.Terminal;
-import concessionaria.negocio.excessoes.ParcelasInvalidasException;
+import sistema.main.Terminal;
+import sistema.negocio.excessoes.ParcelasInvalidasException;
 
 public class PagamentoUI {
 

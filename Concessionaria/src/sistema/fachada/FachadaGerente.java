@@ -1,14 +1,14 @@
-package concessionaria.fachada;
-import concessionaria.negocio.entidades.Cliente;
-import concessionaria.negocio.entidades.Veiculo;
-import concessionaria.negocio.excessoes.PlacaDeveSerUnicaException;
-import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
-import concessionaria.negocio.excessoes.cliente.ClienteNaoEncontradoException;
-import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
-import concessionaria.negocio.transacoes.Transacao;
-
+package sistema.fachada;
 import java.time.LocalDate;
 import java.util.List;
+
+import sistema.negocio.entidades.Cliente;
+import sistema.negocio.entidades.Veiculo;
+import sistema.negocio.excessoes.PlacaDeveSerUnicaException;
+import sistema.negocio.excessoes.VeiculoNaoEncontradoException;
+import sistema.negocio.excessoes.cliente.ClienteNaoEncontradoException;
+import sistema.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
+import sistema.negocio.transacoes.Transacao;
 
 public class FachadaGerente extends FachadaVendedor {
     public FachadaGerente(String nome, String cpf, LocalDate dataNascimento) {

@@ -1,7 +1,7 @@
-package concessionaria.negocio.transacoes;
+package sistema.negocio.transacoes;
 
-import concessionaria.negocio.entidades.Cliente;
-import concessionaria.negocio.entidades.Veiculo;
+import sistema.negocio.entidades.Cliente;
+import sistema.negocio.entidades.Veiculo;
 
 public class Multa extends Transacao {
     private final double valor;

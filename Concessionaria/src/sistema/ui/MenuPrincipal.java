@@ -1,26 +1,25 @@
-package concessionaria.ui;
-
-// import concessionaria.dados.repositorios.VeiculoRepository;
-import concessionaria.fachada.Concessionaria;
-import concessionaria.main.Terminal;
-import concessionaria.negocio.entidades.Cliente;
-import concessionaria.negocio.entidades.Veiculo;
-import concessionaria.negocio.excessoes.DataDevolucaoInvalidaException;
-import concessionaria.negocio.excessoes.ParcelasInvalidasException;
-import concessionaria.negocio.excessoes.PlacaDeveSerUnicaException;
-import concessionaria.negocio.excessoes.QuilometragemMenorQueOriginalException;
-import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
-import concessionaria.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
-import concessionaria.negocio.excessoes.cliente.CPFDeveSerUnicoException;
-import concessionaria.negocio.excessoes.cliente.ClienteNaoEncontradoException;
-import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
-import concessionaria.negocio.transacoes.Aluguel;
-import concessionaria.negocio.transacoes.Transacao;
-import concessionaria.fachada.FachadaGerente;
-import concessionaria.fachada.FachadaVendedor;
+package sistema.ui;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import sistema.fachada.Concessionaria;
+import sistema.fachada.FachadaGerente;
+import sistema.fachada.FachadaVendedor;
+import sistema.main.Terminal;
+import sistema.negocio.entidades.Cliente;
+import sistema.negocio.entidades.Veiculo;
+import sistema.negocio.excessoes.DataDevolucaoInvalidaException;
+import sistema.negocio.excessoes.ParcelasInvalidasException;
+import sistema.negocio.excessoes.PlacaDeveSerUnicaException;
+import sistema.negocio.excessoes.QuilometragemMenorQueOriginalException;
+import sistema.negocio.excessoes.VeiculoNaoEncontradoException;
+import sistema.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
+import sistema.negocio.excessoes.cliente.CPFDeveSerUnicoException;
+import sistema.negocio.excessoes.cliente.ClienteNaoEncontradoException;
+import sistema.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
+import sistema.negocio.transacoes.Aluguel;
+import sistema.negocio.transacoes.Transacao;
 
 public class MenuPrincipal {
 
