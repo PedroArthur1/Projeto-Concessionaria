@@ -19,6 +19,10 @@ public class Aluguel extends Transacao {
         this.valorTotal = diasAlugados * VALOR_DIARIA;
     }
 
+    public static double simularTotal(int dias) {
+        return dias * VALOR_DIARIA;
+    }
+
     public double calcularMulta(LocalDate dataDevolucaoReal) {
         long diasAtraso = java.time.temporal.ChronoUnit.DAYS.between(dataDevolucao, dataDevolucaoReal);
         if (diasAtraso > 0) {

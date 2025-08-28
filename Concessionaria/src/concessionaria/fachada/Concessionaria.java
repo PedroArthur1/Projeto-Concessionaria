@@ -9,11 +9,13 @@ import concessionaria.negocio.excessoes.cliente.CPFDeveSerUnicoException;
 import concessionaria.negocio.excessoes.cliente.ClienteNaoEncontradoException;
 import concessionaria.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
 import concessionaria.negocio.transacoes.Aluguel;
+import concessionaria.negocio.transacoes.Multa;
 import concessionaria.negocio.transacoes.Transacao;
 import concessionaria.negocio.transacoes.Venda;
 import concessionaria.repositorios.ClienteRepository;
 import concessionaria.repositorios.TransacaoRepository;
 import concessionaria.repositorios.VeiculoRepository;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -169,6 +171,45 @@ public void carregarVeiculos(String arquivo) {
     
         System.out.println("Aluguel registrado com sucesso para " + cliente.getNome() + " do veículo " + veiculoEmEstoque.getModelo() + " | Valor Total: R$" + String.format("%.2f", novoAluguel.getValorTotal()));
     }
+
+    // Busca o cliente do aluguel ATIVO (não concluído) para a placa informada
+    public Cliente buscarClienteDoAluguelAtivo(String placa)
+            throws VeiculoNaoEncontradoException, ClienteNaoEncontradoException {
+
+        Veiculo v = veiculoRepository.buscarPorPlaca(placa);
+
+        for (Transacao t : transacaoRepository.listarTodas()) {
+            if (t instanceof Aluguel a && !a.isConcluida() && a.getVeiculo().equals(v)) {
+                return a.getCliente();
+            }
+        }
+        throw new ClienteNaoEncontradoException("Não há aluguel ativo para a placa: " + placa);
+    }
+
+    // Calcula a multa de ATRASO do aluguel ativo dessa placa (sem danos)
+    public double calcularMultaAtraso(String placa, LocalDate dataDevolucaoReal)
+            throws VeiculoNaoEncontradoException {
+
+        Veiculo v = veiculoRepository.buscarPorPlaca(placa);
+
+        for (Transacao t : transacaoRepository.listarTodas()) {
+            if (t instanceof Aluguel a && !a.isConcluida() && a.getVeiculo().equals(v)) {
+                return a.calcularMulta(dataDevolucaoReal);
+            }
+        }
+        return 0.0;
+    }
+
+    // Registra a transação de Multa (entra no relatório)
+    public void registrarMulta(Cliente cliente,
+                            Veiculo veiculo,
+                            String metodoPagamento,
+                            double valor,
+                            String motivo) {
+        Multa m = new Multa(cliente, veiculo, metodoPagamento, valor, motivo);
+        transacaoRepository.adicionar(m);
+    }
+
     // Método de devolução, ajustado para placa e novos status
     public void devolverVeiculo(String placa, LocalDate dataDevolucaoReal, double valorDano, double novaQuilometragem) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException {
     

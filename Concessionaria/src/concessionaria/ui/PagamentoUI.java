@@ -5,8 +5,8 @@ import concessionaria.negocio.excessoes.ParcelasInvalidasException;
 
 public class PagamentoUI {
 
-    // preço é necessário para calcular valor da parcela (se crédito)
-    public static EscolhaPagamento escolherPagamento(double preco) throws ParcelasInvalidasException {
+    // Recebe o TOTAL a pagar (preço do carro na venda, ou total do aluguel)
+    public static EscolhaPagamento escolherPagamento(double totalAPagar) throws ParcelasInvalidasException {
         System.out.printf("\n---Forma de pagamento---\n");
         System.out.printf("1. Dinheiro\n");
         System.out.printf("2. Cartão de Débito\n");
@@ -24,7 +24,7 @@ public class PagamentoUI {
                 if (p < 1 || p > 24) {
                     throw new ParcelasInvalidasException("Número de parcelas inválido: " + p + " (permitido: 1 a 24)");
                 }
-                double valorParcela = preco / p;
+                double valorParcela = totalAPagar / p;
                 String metodo = "CREDITO " + p + "x";
                 return new EscolhaPagamento(metodo, p, valorParcela);
             }
@@ -32,8 +32,7 @@ public class PagamentoUI {
             case 5: return new EscolhaPagamento("BOLETO",  null, null);
             default:
                 System.out.println("Opção inválida.");
-                // você pode repetir a pergunta ou lançar uma exceção; aqui vou repetir:
-                return escolherPagamento(preco);
+                return escolherPagamento(totalAPagar); // repete a pergunta
         }
     }
 }

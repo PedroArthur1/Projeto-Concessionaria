@@ -1,5 +1,6 @@
 package concessionaria.fachada;
 import concessionaria.negocio.entidades.Cliente;
+import concessionaria.negocio.entidades.Veiculo;
 import concessionaria.negocio.excessoes.PlacaDeveSerUnicaException;
 import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
 import concessionaria.negocio.excessoes.cliente.ClienteNaoEncontradoException;
@@ -18,6 +19,15 @@ public class FachadaGerente extends FachadaVendedor {
         concessionaria.adicionarVeiculo(placa, modelo, marca, ano, preco, quilometragem);
     }
 
+    public void registrarMulta(Concessionaria concessionaria,
+                               Cliente cliente,
+                               Veiculo veiculo,
+                               String metodoPagamento,
+                               double valor,
+                               String motivo) {
+        concessionaria.registrarMulta(cliente, veiculo, metodoPagamento, valor, motivo);
+    }
+    
     public void removerVeiculo(Concessionaria concessionaria, String modelo) throws VeiculoNaoEncontradoException {
         concessionaria.removerVeiculo(modelo);
     }
