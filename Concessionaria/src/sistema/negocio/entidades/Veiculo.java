@@ -1,4 +1,4 @@
-package concessionaria.negocio.entidades;
+package sistema.negocio.entidades;
 
 import java.time.LocalDate;
 

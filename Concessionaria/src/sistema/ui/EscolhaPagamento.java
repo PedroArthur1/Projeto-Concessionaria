@@ -1,4 +1,4 @@
-package concessionaria.ui;
+package sistema.ui;
 
 public class EscolhaPagamento {
     private final String metodo;        // "DINHEIRO", "CREDITO 12x", etc.

@@ -1,12 +1,12 @@
-package concessionaria.repositorios;
+package sistema.repositorios;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import concessionaria.negocio.entidades.Cliente;
-import concessionaria.negocio.transacoes.Transacao;
+import sistema.negocio.entidades.Cliente;
+import sistema.negocio.transacoes.Transacao;
 
 public class TransacaoRepository {
     private final List<Transacao> historicoTransacoes;

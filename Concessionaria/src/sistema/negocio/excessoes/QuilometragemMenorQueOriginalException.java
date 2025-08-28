@@ -1,4 +1,4 @@
-package concessionaria.negocio.excessoes;
+package sistema.negocio.excessoes;
 
 public class QuilometragemMenorQueOriginalException extends Exception{
     public QuilometragemMenorQueOriginalException (String mensagem){

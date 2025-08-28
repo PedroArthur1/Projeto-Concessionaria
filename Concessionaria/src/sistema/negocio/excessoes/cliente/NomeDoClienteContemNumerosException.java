@@ -1,4 +1,4 @@
-package concessionaria.negocio.excessoes.cliente;
+package sistema.negocio.excessoes.cliente;
 
 public class NomeDoClienteContemNumerosException extends Exception {
     public NomeDoClienteContemNumerosException(String mensagem) {

@@ -1,6 +1,6 @@
-package concessionaria.negocio.transacoes;
-import concessionaria.negocio.entidades.Cliente;
-import concessionaria.negocio.entidades.Veiculo;
+package sistema.negocio.transacoes;
+import sistema.negocio.entidades.Cliente;
+import sistema.negocio.entidades.Veiculo;
 
 public class Venda extends Transacao {
     public Venda(Cliente cliente, Veiculo veiculo, String metodoPagamento) {

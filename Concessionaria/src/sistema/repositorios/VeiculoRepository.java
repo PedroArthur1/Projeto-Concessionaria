@@ -1,11 +1,11 @@
-package concessionaria.repositorios;
+package sistema.repositorios;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import concessionaria.negocio.entidades.Veiculo;
-import concessionaria.negocio.excessoes.PlacaDeveSerUnicaException;
-import concessionaria.negocio.excessoes.VeiculoNaoEncontradoException;
+import sistema.negocio.entidades.Veiculo;
+import sistema.negocio.excessoes.PlacaDeveSerUnicaException;
+import sistema.negocio.excessoes.VeiculoNaoEncontradoException;
 
 public class VeiculoRepository {
     private final List<Veiculo> estoqueVeiculos;

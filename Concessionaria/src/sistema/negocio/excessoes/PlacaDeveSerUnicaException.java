@@ -1,4 +1,4 @@
-package concessionaria.negocio.excessoes;
+package sistema.negocio.excessoes;
 
 public class PlacaDeveSerUnicaException extends Exception{
     public PlacaDeveSerUnicaException(String mensagem) {

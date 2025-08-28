@@ -1,4 +1,4 @@
-package concessionaria.negocio.excessoes;
+package sistema.negocio.excessoes;
 
 public class ParcelasInvalidasException extends Exception {
     public ParcelasInvalidasException(String mensagem) {
