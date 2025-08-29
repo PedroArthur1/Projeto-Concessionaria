@@ -185,11 +185,11 @@ public class MenuPrincipal {
                         double totalMulta = multaAtraso + valorDano;
 
                         if (totalMulta > 0) {
-                            System.out.println("Multa por atraso: R$ " + String.format("%.2f", multaAtraso));
-                            if (valorDano > 0) {
-                                System.out.println("Valor de danos: R$ " + String.format("%.2f", valorDano));
-                            }
-                            System.out.println("Total de multa/danos: R$ " + String.format("%.2f", totalMulta));
+                            //System.out.println("Multa por atraso: R$ " + String.format("%.2f", multaAtraso));
+                            //if (valorDano > 0) {
+                               // System.out.println("Valor de danos: R$ " + String.format("%.2f", valorDano));
+                            //}
+                            //System.out.println("Total de multa/danos: R$ " + String.format("%.2f", totalMulta));
 
                             // Cobrança da MULTA
                             EscolhaPagamento pg = PagamentoUI.escolherPagamento(totalMulta);
@@ -379,14 +379,13 @@ public class MenuPrincipal {
                     try {
                         String cpfClienteAluguel = Terminal.lerString("CPF do cliente para aluguel: ");
                         Cliente clienteAluguel = concessionaria.buscarCliente(cpfClienteAluguel);
-
                         String placaAluguel = Terminal.lerString("Placa do veículo para aluguel: ");
-                        Veiculo veiculo = concessionaria.buscarVeiculo(placaAluguel);
-
                         int diasAluguel = Terminal.lerInt("Dias de aluguel: ");
+                        double totalAluguel = Aluguel.simularTotal(diasAluguel);
+                        System.out.printf("Total do aluguel: R$ %.2f%n", totalAluguel);
 
                         // Usa o helper para escolher/validar pagamento
-                        EscolhaPagamento pg = PagamentoUI.escolherPagamento(veiculo.getPreco());
+                        EscolhaPagamento pg = PagamentoUI.escolherPagamento(totalAluguel);
 
                         gerente.registrarAluguel(concessionaria, clienteAluguel, placaAluguel, diasAluguel, pg.getMetodo());
 
@@ -417,27 +416,72 @@ public class MenuPrincipal {
                 case 13:
                     try {
                         String placaDevolver = Terminal.lerString("Placa do veículo para devolver: ");
-                        LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (YYYY-MM-DD): ");
-                        Veiculo veiculo = concessionaria.buscarVeiculo(placaDevolver); 
+                        LocalDate dataDevolucaoReal = Terminal.lerData("Data de devolução (AAAA-MM-DD): ");
+                        Veiculo veiculo = concessionaria.buscarVeiculo(placaDevolver);
 
                         boolean houveDano = Terminal.lerSimNao("Ocorreram danos ao veículo?");
-                        double valorDano = 0.0;
-                        if (houveDano) {
-                            valorDano = 2500.00;
-                        }
+                        double valorDano = houveDano ? 2500.00 : 0.0;
 
                         double novaQuilometragem = Terminal.lerDouble("Quilometragem atual: ");
-
-                        if(novaQuilometragem<veiculo.getQuilometragem()){
-                            throw new QuilometragemMenorQueOriginalException("Quilometragem atual menor do que a quilometragem anterior");
+                        if (novaQuilometragem <= veiculo.getQuilometragem()) {
+                            throw new QuilometragemMenorQueOriginalException(
+                                "Quilometragem atual menor ou igual à quilometragem anterior"
+                            );
                         }
 
-                        // chamada igual ao vendedor, mas usando gerente
-                        gerente.devolverVeiculo(concessionaria, placaDevolver, dataDevolucaoReal, valorDano, novaQuilometragem);
-                    } catch (QuilometragemMenorQueOriginalException | VeiculoNaoEncontradoException | DataDevolucaoInvalidaException e) {
+                        // Cliente do aluguel ativo
+                        Cliente clienteDoAluguel = concessionaria.buscarClienteDoAluguelAtivo(placaDevolver);
+
+                        // Multa por atraso
+                        double multaAtraso = concessionaria.calcularMultaAtraso(placaDevolver, dataDevolucaoReal);
+
+                        // Total a pagar de multa/danos
+                        double totalMulta = multaAtraso + valorDano;
+
+                        if (totalMulta > 0) {
+                            System.out.println("Multa por atraso: R$ " + String.format("%.2f", multaAtraso));
+                            if (valorDano > 0) {
+                               System.out.println("Valor de danos: R$ " + String.format("%.2f", valorDano));
+                            }
+                            System.out.println("Total de multa/danos: R$ " + String.format("%.2f", totalMulta));
+
+                            // Cobrança da MULTA
+                            EscolhaPagamento pg = PagamentoUI.escolherPagamento(totalMulta);
+
+                            String motivo = (multaAtraso > 0 && valorDano > 0) ? "ATRASO + DANO"
+                                        : (multaAtraso > 0) ? "ATRASO" : "DANO";
+
+                            // Registrar a multa no repositório de transações (aparecerá no relatório)
+                            gerente.registrarMulta(
+                                concessionaria,
+                                clienteDoAluguel,
+                                veiculo,
+                                pg.getMetodo(),
+                                totalMulta,
+                                motivo
+                            );
+
+                            if (pg.isCredito()) {
+                                System.out.printf("Multa paga em %d parcelas de R$ %.2f%n",
+                                    pg.getParcelas(), pg.getValorParcela());
+                            }
+                        } else {
+                            System.out.println("Devolução sem multas/danos.");
+                        }
+
+                        // Efetivar a devolução (atualiza veículo, conclui aluguel, etc.)
+                        vendedor.devolverVeiculo(
+                            concessionaria, placaDevolver, dataDevolucaoReal, valorDano, novaQuilometragem
+                        );
+
+                    } catch (QuilometragemMenorQueOriginalException
+                        | VeiculoNaoEncontradoException
+                        | DataDevolucaoInvalidaException
+                        | ParcelasInvalidasException
+                        | ClienteNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }
-                    break;
+                break;     
                 case 0:
                     System.out.println("Voltando ao menu principal...");
                     break;

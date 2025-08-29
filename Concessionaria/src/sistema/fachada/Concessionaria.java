@@ -237,7 +237,6 @@ public void carregarVeiculos(String arquivo) {
         }
     
         double multaPorAtraso = aluguelEmQuestao.calcularMulta(dataDevolucaoReal);
-        aluguelEmQuestao.setValorDano(valorDano);
         double valorTotalDevolucao = multaPorAtraso + valorDano;
         aluguelEmQuestao.marcarComoConcluida();
         
@@ -253,11 +252,7 @@ public void carregarVeiculos(String arquivo) {
         
         System.out.println("\n--- Devolução do Veículo ---");
         System.out.println("Veículo " + veiculoAlugado.getModelo() + " devolvido com sucesso.");
-        System.out.println("Multa por atraso: R$" + String.format("%.2f", multaPorAtraso));
-        if (valorDano > 0) {
-            System.out.println("Valor de danos: R$" + String.format("%.2f", valorDano));
-        }
-        System.out.println("Valor total a ser pago na devolução: R$" + String.format("%.2f", valorTotalDevolucao));
+        System.out.println("Quilometragem Atual: " + veiculoAlugado.getQuilometragem() + " Km.");
     }
     
     // Métodos para delegar a responsabilidade aos outros repositórios...

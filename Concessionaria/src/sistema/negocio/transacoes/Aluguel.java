@@ -39,10 +39,6 @@ public class Aluguel extends Transacao {
         return valorTotal;
     }
 
-    public void setValorDano(double valorDano) {
-        this.valorDano = valorDano;
-    }
-
     @Override
     public double getValorTransacao() {
         return valorTotal + valorDano;
