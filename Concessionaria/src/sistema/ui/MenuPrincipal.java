@@ -254,8 +254,8 @@ public class MenuPrincipal {
                 break;
                 case 2:
                     try {
-                        String modeloRemover = Terminal.lerString("Modelo do veículo para remover: ");
-                        gerente.removerVeiculo(concessionaria, modeloRemover);
+                        String placaRemover = Terminal.lerString("Placa do veículo para remover: ");
+                        gerente.removerVeiculo(concessionaria, placaRemover);
                     } catch (VeiculoNaoEncontradoException e) {
                         System.out.println("Erro: " + e.getMessage());
                     }

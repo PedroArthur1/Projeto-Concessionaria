@@ -3,6 +3,11 @@ package sistema.negocio.entidades;
 import java.time.LocalDate;
 import java.time.Period;
 
+/**
+ * @author Emanuel Bezerra
+ * @description Classe que define a entidade Cliente do sistema.
+ */
+
 public class Cliente {
 
     private String nome;
@@ -24,6 +29,10 @@ public class Cliente {
     public LocalDate getDataNascimento() { return dataNascimento; }
     public void setDataNascimento(LocalDate dataNascimento) { this.dataNascimento = dataNascimento; }
 
+    /**
+     * Calcula a idade do cliente com base na data de nascimento usando a biblioteca localdate.
+     * @return A idade do cliente em anos.
+     */
     public int getIdade() {
         return Period.between(dataNascimento, LocalDate.now()).getYears();
     }

@@ -23,6 +23,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Padrão de projeto Fachada para a concessionária.
+ * Centraliza as operações e simplifica a interação com os repositórios.
+ *
+ * @author Emanuel Bezerra e Pedro Arthur
+ * @description Classe que atua como uma fachada, centralizando as operações do negócio.
+ */
 public class Concessionaria {
     private final ClienteRepository clienteRepository;
     private final VeiculoRepository veiculoRepository;
@@ -34,6 +41,10 @@ public class Concessionaria {
         this.transacaoRepository = new TransacaoRepository();
     }
 
+ /**
+     * Carrega os dados de clientes do arquivo clientes.txt.
+     * @param arquivo O caminho do arquivo a ser lido.
+     */
 public void carregarClientes(String arquivo) {
     try {
         List<String> linhas = Files.readAllLines(Paths.get(arquivo));
@@ -52,6 +63,10 @@ public void carregarClientes(String arquivo) {
     }
 }
 
+    /**
+     * Carrega os dados de veículos de veiculos.txt.
+     * @param arquivo O caminho do arquivo a ser lido.
+     */
 public void carregarVeiculos(String arquivo) {
     try {
         List<String> linhas = Files.readAllLines(Paths.get(arquivo));
@@ -129,7 +144,6 @@ public void carregarVeiculos(String arquivo) {
             totalTransacoes += t.getValorTransacao();
         }
         
-        // Exiba o valor total
         System.out.println("-------------------------------------");
         System.out.println("Valor total das transações no período: R$" + String.format("%.2f", totalTransacoes));
         System.out.println("-------------------------------------");
@@ -166,6 +180,13 @@ public void carregarVeiculos(String arquivo) {
         System.out.println("Aluguel registrado com sucesso para " + cliente.getNome() + " do veículo " + veiculoEmEstoque.getModelo() + " | Valor Total: R$" + String.format("%.2f", novoAluguel.getValorTotal()));
     }
 
+    /**
+     * Busca o cliente associado a um aluguel ativo para um veículo específico.
+     * @param placa A placa do veículo.
+     * @return O objeto Cliente do aluguel ativo.
+     * @throws VeiculoNaoEncontradoException se o veículo não for encontrado.
+     * @throws ClienteNaoEncontradoException se não houver um aluguel ativo para a placa.
+     */
     public Cliente buscarClienteDoAluguelAtivo(String placa)
             throws VeiculoNaoEncontradoException, ClienteNaoEncontradoException {
 
@@ -179,7 +200,14 @@ public void carregarVeiculos(String arquivo) {
         throw new ClienteNaoEncontradoException("Não há aluguel ativo para a placa: " + placa);
     }
 
-    // Calcula a multa de ATRASO do aluguel ativo dessa placa (sem danos)
+     // Calcula a multa de ATRASO do aluguel ativo dessa placa (sem danos)
+    /**
+     * Calcula o valor da multa por atraso na devolução de um veículo alugado.
+     * @param placa A placa do veículo alugado.
+     * @param dataDevolucaoReal A data real de devolução.
+     * @return O valor da multa por atraso.
+     * @throws VeiculoNaoEncontradoException se o veículo não for encontrado.
+     */
     public double calcularMultaAtraso(String placa, LocalDate dataDevolucaoReal)
             throws VeiculoNaoEncontradoException {
 

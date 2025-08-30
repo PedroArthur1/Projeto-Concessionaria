@@ -2,6 +2,12 @@ package sistema.negocio.entidades;
 
 import java.time.LocalDate;
 
+/**
+ * Gerencia o estado e as informações de um veículo, como placa, modelo, preço e status de disponibilidade.
+ * @author Pedro Arthur
+ * @description Classe que define a entidade Veículo do sistema.
+ */
+
 public class Veiculo {
 
     private final String placa;
@@ -24,7 +30,7 @@ public class Veiculo {
         this.quilometragem = quilometragem;
     }
     
-    // Construtor para facilitar a edição
+    // construtor para facilitar a edição
     public Veiculo(String placa, String modelo, String marca, int ano, double preco) {
         this.placa = placa;
         this.modelo = modelo;
@@ -53,7 +59,7 @@ public class Veiculo {
         String status = statusDisponibilidade;
         if ("Indisponivel".equals(statusDisponibilidade) && disponivelApos != null) {
             status += " até " + disponivelApos;
-        }
+        } // mostrar a data de devolucao do veiculo
         return "Placa: " + placa +
                 " | Modelo: " + modelo +
                 " | Marca: " + marca +

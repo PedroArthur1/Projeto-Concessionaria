@@ -4,6 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+/**
+ * Classe para facilitar quando precisar usar o Scanner nas outras classes.
+ * @author Emanuel Bezerra
+ * @description Classe que atua como um Scanner de leitura dos dados digitados.
+ */
+
 public class Terminal {
 
     private static final Scanner scanner = new Scanner(System.in);

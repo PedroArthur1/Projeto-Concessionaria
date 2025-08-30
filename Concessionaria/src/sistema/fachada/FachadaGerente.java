@@ -10,6 +10,12 @@ import sistema.negocio.excessoes.cliente.ClienteNaoEncontradoException;
 import sistema.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
 import sistema.negocio.transacoes.Transacao;
 
+/**
+ * Estende a fachada do vendedor e adiciona funcionalidades exclusivas de gerente.
+ * @author Emanuel Bezerra
+ * @description Classe que atua como uma fachada de acesso para o perfil de Gerente.
+ */
+
 public class FachadaGerente extends FachadaVendedor {
     public FachadaGerente(){}   
 
@@ -26,8 +32,8 @@ public class FachadaGerente extends FachadaVendedor {
         concessionaria.registrarMulta(cliente, veiculo, metodoPagamento, valor, motivo);
     }
     
-    public void removerVeiculo(Concessionaria concessionaria, String modelo) throws VeiculoNaoEncontradoException {
-        concessionaria.removerVeiculo(modelo);
+    public void removerVeiculo(Concessionaria concessionaria, String placa) throws VeiculoNaoEncontradoException {
+        concessionaria.removerVeiculo(placa);
     }
 
     public void registrarAluguel(Concessionaria concessionaria, Cliente cliente, String placa, int dias, String metodoPagamento) throws VeiculoNaoEncontradoException {

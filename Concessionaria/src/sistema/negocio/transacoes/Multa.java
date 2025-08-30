@@ -3,6 +3,12 @@ package sistema.negocio.transacoes;
 import sistema.negocio.entidades.Cliente;
 import sistema.negocio.entidades.Veiculo;
 
+/**
+ * Estende a classe Transacao e define o valor e o motivo da multa.
+ * @author Pedro Arthur
+ * @description Classe que define uma transação do tipo Multa.
+ */
+
 public class Multa extends Transacao {
     private final double valor;
     private final String motivo; // "ATRASO", "DANO" ou "ATRASO + DANO"

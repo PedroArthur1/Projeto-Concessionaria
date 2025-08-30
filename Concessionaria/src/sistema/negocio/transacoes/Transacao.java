@@ -4,6 +4,13 @@ import java.time.LocalDate;
 import sistema.negocio.entidades.Cliente;
 import sistema.negocio.entidades.Veiculo;
 
+/**
+ * Serve como base para Venda, Aluguel e Multa, definindo atributos e comportamentos comuns.
+ *
+ * @author Pedro Arthur
+ * @description Classe que define a transação do sistema.
+ */
+
 public abstract class Transacao {
     protected Cliente cliente;
     protected Veiculo veiculo;

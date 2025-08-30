@@ -7,6 +7,10 @@ import sistema.negocio.entidades.Veiculo;
 import sistema.negocio.excessoes.PlacaDeveSerUnicaException;
 import sistema.negocio.excessoes.VeiculoNaoEncontradoException;
 
+/**
+ * @author Pedro Arthur
+ * @description Repositório para gerenciar as operações de persistência de veículos.
+ */
 public class VeiculoRepository {
     private final List<Veiculo> estoqueVeiculos;
 

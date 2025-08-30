@@ -4,6 +4,13 @@ import java.time.LocalDate;
 import sistema.negocio.entidades.Cliente;
 import sistema.negocio.entidades.Veiculo;
 
+/**
+ * Estende a classe Transacao e adiciona a lógica específica para aluguéis.
+ *
+ * @author Emanuel e Pedro.
+ * @description Classe que define uma transação do tipo Aluguel.
+ */
+
 public class Aluguel extends Transacao {
     private final LocalDate dataDevolucao;
     private final int diasAlugados;
@@ -19,10 +26,21 @@ public class Aluguel extends Transacao {
         this.valorTotal = diasAlugados * VALOR_DIARIA;
     }
 
+    /**
+     * Simula o valor total de um aluguel com base no número de dias.
+     * @param dias totais do aluguek.
+     * @return O valor total dos dias X o valor da diaria.
+     */
     public static double simularTotal(int dias) {
         return dias * VALOR_DIARIA;
     }
 
+    /**
+     * Calcula o valor da multa por atraso na devolução do veículo.
+     * Cada dia equivale a 50 reais.
+     * @param dataDevolucaoReal A data real de devolução.
+     * @return O valor da multa por atraso, ou 0 se não houver atraso.
+     */
     public double calcularMulta(LocalDate dataDevolucaoReal) {
         long diasAtraso = java.time.temporal.ChronoUnit.DAYS.between(dataDevolucao, dataDevolucaoReal);
         if (diasAtraso > 0) {

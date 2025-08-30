@@ -9,6 +9,12 @@ import sistema.negocio.excessoes.cliente.CPFDeveSerUnicoException;
 import sistema.negocio.excessoes.cliente.ClienteNaoEncontradoException;
 import sistema.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
 
+/**
+ * Repositório para gerenciar e preservar os objetos de Cliente.
+ * @author Emanuel Bezerra
+ * @description Repositório para gerenciar as operações de persistência de clientes.
+ */
+
 public class ClienteRepository {
     private final List<Cliente> clientes;
 
