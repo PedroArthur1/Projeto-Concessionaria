@@ -5,7 +5,6 @@ import sistema.negocio.excessoes.ParcelasInvalidasException;
 
 public class PagamentoUI {
 
-    // Recebe o TOTAL a pagar (preço do carro na venda, ou total do aluguel)
     public static EscolhaPagamento escolherPagamento(double totalAPagar) throws ParcelasInvalidasException {
         System.out.printf("\n---Forma de pagamento---\n");
         System.out.printf("1. Dinheiro\n");
@@ -32,7 +31,7 @@ public class PagamentoUI {
             case 5: return new EscolhaPagamento("BOLETO",  null, null);
             default:
                 System.out.println("Opção inválida.");
-                return escolherPagamento(totalAPagar); // repete a pergunta
+                return escolherPagamento(totalAPagar);
         }
     }
 }

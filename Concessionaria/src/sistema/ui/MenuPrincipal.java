@@ -130,7 +130,6 @@ public class MenuPrincipal {
 
                         System.out.printf("Total do aluguel: R$ %.2f%n", totalAluguel);
 
-                        // Usa o helper para escolher/validar pagamento
                         EscolhaPagamento pg = PagamentoUI.escolherPagamento(totalAluguel);
 
                         gerente.registrarAluguel(concessionaria, clienteAluguel, placaAluguel, diasAluguel, pg.getMetodo());
@@ -175,13 +174,8 @@ public class MenuPrincipal {
                             );
                         }
 
-                        // Cliente do aluguel ativo
                         Cliente clienteDoAluguel = concessionaria.buscarClienteDoAluguelAtivo(placaDevolver);
-
-                        // Multa por atraso
                         double multaAtraso = concessionaria.calcularMultaAtraso(placaDevolver, dataDevolucaoReal);
-
-                        // Total a pagar de multa/danos
                         double totalMulta = multaAtraso + valorDano;
 
                         if (totalMulta > 0) {
@@ -191,21 +185,12 @@ public class MenuPrincipal {
                             }
                             System.out.println("Total de multa/danos: R$ " + String.format("%.2f", totalMulta));
 
-                            // Cobrança da MULTA
                             EscolhaPagamento pg = PagamentoUI.escolherPagamento(totalMulta);
 
                             String motivo = (multaAtraso > 0 && valorDano > 0) ? "ATRASO + DANO"
                                         : (multaAtraso > 0) ? "ATRASO" : "DANO";
 
-                            // Registrar a multa no repositório de transações (aparecerá no relatório)
-                            gerente.registrarMulta(
-                                concessionaria,
-                                clienteDoAluguel,
-                                veiculo,
-                                pg.getMetodo(),
-                                totalMulta,
-                                motivo
-                            );
+                            gerente.registrarMulta(concessionaria, clienteDoAluguel, veiculo, pg.getMetodo(), totalMulta, motivo);
 
                             if (pg.isCredito()) {
                                 System.out.printf("Multa paga em %d parcelas de R$ %.2f%n",
@@ -215,7 +200,6 @@ public class MenuPrincipal {
                             System.out.println("Devolução sem multas/danos.");
                         }
 
-                        // Efetivar a devolução (atualiza veículo, conclui aluguel, etc.)
                         vendedor.devolverVeiculo(
                             concessionaria, placaDevolver, dataDevolucaoReal, valorDano, novaQuilometragem
                         );
@@ -291,7 +275,7 @@ public class MenuPrincipal {
                                 case 1 -> "Disponivel";
                                 case 2 -> "Indisponivel";
                                 case 3 -> "Manuntecao";
-                                default -> "Disponivel"; // padrão caso o usuário digite inválido
+                                default -> "Disponivel";
                             };
 
                             gerente.editarDadosVeiculo(concessionaria, placaEditar, novoPreco, novaDisponibilidade);
@@ -384,7 +368,6 @@ public class MenuPrincipal {
                         double totalAluguel = Aluguel.simularTotal(diasAluguel);
                         System.out.printf("Total do aluguel: R$ %.2f%n", totalAluguel);
 
-                        // Usa o helper para escolher/validar pagamento
                         EscolhaPagamento pg = PagamentoUI.escolherPagamento(totalAluguel);
 
                         gerente.registrarAluguel(concessionaria, clienteAluguel, placaAluguel, diasAluguel, pg.getMetodo());
@@ -429,13 +412,9 @@ public class MenuPrincipal {
                             );
                         }
 
-                        // Cliente do aluguel ativo
+
                         Cliente clienteDoAluguel = concessionaria.buscarClienteDoAluguelAtivo(placaDevolver);
-
-                        // Multa por atraso
                         double multaAtraso = concessionaria.calcularMultaAtraso(placaDevolver, dataDevolucaoReal);
-
-                        // Total a pagar de multa/danos
                         double totalMulta = multaAtraso + valorDano;
 
                         if (totalMulta > 0) {
@@ -445,21 +424,12 @@ public class MenuPrincipal {
                             }
                             System.out.println("Total de multa/danos: R$ " + String.format("%.2f", totalMulta));
 
-                            // Cobrança da MULTA
                             EscolhaPagamento pg = PagamentoUI.escolherPagamento(totalMulta);
 
                             String motivo = (multaAtraso > 0 && valorDano > 0) ? "ATRASO + DANO"
                                         : (multaAtraso > 0) ? "ATRASO" : "DANO";
 
-                            // Registrar a multa no repositório de transações (aparecerá no relatório)
-                            gerente.registrarMulta(
-                                concessionaria,
-                                clienteDoAluguel,
-                                veiculo,
-                                pg.getMetodo(),
-                                totalMulta,
-                                motivo
-                            );
+                            gerente.registrarMulta(concessionaria, clienteDoAluguel, veiculo, pg.getMetodo(), totalMulta, motivo);
 
                             if (pg.isCredito()) {
                                 System.out.printf("Multa paga em %d parcelas de R$ %.2f%n",
@@ -469,7 +439,6 @@ public class MenuPrincipal {
                             System.out.println("Devolução sem multas/danos.");
                         }
 
-                        // Efetivar a devolução (atualiza veículo, conclui aluguel, etc.)
                         vendedor.devolverVeiculo(
                             concessionaria, placaDevolver, dataDevolucaoReal, valorDano, novaQuilometragem
                         );

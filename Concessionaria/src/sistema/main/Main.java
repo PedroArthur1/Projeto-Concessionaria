@@ -9,12 +9,11 @@ public class Main {
     public static void main(String[] args) {
         Concessionaria minhaConcessionaria = new Concessionaria();
         FachadaGerente gerente = new FachadaGerente();
-        FachadaVendedor vendedor = new FachadaVendedor(); // retirar isso urgente
+        FachadaVendedor vendedor = new FachadaVendedor();
         
         minhaConcessionaria.carregarVeiculos("Concessionaria\\src\\sistema\\repositorios\\veiculos.txt");
         minhaConcessionaria.carregarClientes("Concessionaria\\src\\sistema\\repositorios\\clientes.txt");
 
-        // Instanciar e iniciar a nova classe de menu
         MenuPrincipal menu = new MenuPrincipal(minhaConcessionaria, gerente, vendedor);
         menu.iniciar();
     }

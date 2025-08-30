@@ -42,7 +42,12 @@ public abstract class Transacao {
 
     @Override
     public String toString() {
-        return "Cliente: " + cliente.getNome() + ", Veículo: " + veiculo.getModelo() + ", Data: " + dataTransacao + ", Pagamento: " + metodoPagamento;
+        return "Cliente: " + cliente.getNome() +
+               ", Placa: " + veiculo.getPlaca() +
+               ", Veículo: " + veiculo.getModelo() +
+               ", KM: " + String.format("%.0f", veiculo.getQuilometragem()) +
+               ", Data: " + dataTransacao +
+               ", Pagamento: " + metodoPagamento;
     }
 
 

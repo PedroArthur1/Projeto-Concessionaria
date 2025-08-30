@@ -15,12 +15,10 @@ public class TransacaoRepository {
         this.historicoTransacoes = new ArrayList<>();
     }
     
-    // Método para adicionar uma transação
     public void adicionar(Transacao transacao) {
         this.historicoTransacoes.add(transacao);
     }
     
-    // Método para listar transações por data
     public List<Transacao> listarPorPeriodo(LocalDate inicio, LocalDate fim) {
         return historicoTransacoes.stream()
                 .filter(t -> !t.getDataTransacao().isBefore(inicio) && !t.getDataTransacao().isAfter(fim))

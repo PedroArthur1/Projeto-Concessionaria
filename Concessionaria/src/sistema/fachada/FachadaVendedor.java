@@ -23,17 +23,14 @@ public class FachadaVendedor {
         return concessionaria.getEstoqueVeiculos();
     }
 
-    // Método ajustado para receber a placa e o objeto Veiculo
     public void registrarVenda(Concessionaria concessionaria, Cliente cliente, Veiculo veiculo, String metodoPagamento) throws VeiculoNaoEncontradoException {
         concessionaria.registrarVenda(cliente, veiculo.getPlaca(), metodoPagamento);
     }
 
-    // Método ajustado para receber a placa e os outros parâmetros
     public void registrarAluguel(Concessionaria concessionaria, Cliente cliente, String placaAluguel, int diasAluguel, String metodoPagamentoAluguel) throws VeiculoNaoEncontradoException {
         concessionaria.registrarAluguel(cliente, placaAluguel, diasAluguel, metodoPagamentoAluguel);
     }
     
-    // Método ajustado para receber a placa e os outros parâmetros
     public void devolverVeiculo(Concessionaria concessionaria, String placa, LocalDate dataDevolucaoReal, double valorDano, double novaQuilometragem) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException{
         concessionaria.devolverVeiculo(placa, dataDevolucaoReal, valorDano, novaQuilometragem);
     }

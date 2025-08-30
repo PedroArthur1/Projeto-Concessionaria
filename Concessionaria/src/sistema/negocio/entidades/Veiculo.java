@@ -11,7 +11,7 @@ public class Veiculo {
     private double preco;
     private String statusDisponibilidade;
     private LocalDate disponivelApos;
-    private double quilometragem; // Novo atributo
+    private double quilometragem;
 
     public Veiculo(String placa, String modelo, String marca, int ano, double preco, double quilometragem) {
         this.placa = placa;
@@ -19,9 +19,9 @@ public class Veiculo {
         this.marca = marca;
         this.ano = ano;
         this.preco = preco;
-        this.statusDisponibilidade = "Disponivel"; // Valor padrão
+        this.statusDisponibilidade = "Disponivel";
         this.disponivelApos = null;
-        this.quilometragem = quilometragem; // Novo atributo
+        this.quilometragem = quilometragem;
     }
     
     // Construtor para facilitar a edição
@@ -39,7 +39,7 @@ public class Veiculo {
     public void setStatusDisponibilidade(String statusDisponibilidade) { this.statusDisponibilidade = statusDisponibilidade; }
     public LocalDate getDisponivelApos() { return disponivelApos; }
     public void setDisponivelApos(LocalDate disponivelApos) { this.disponivelApos = disponivelApos; }
-    public String getPlaca() { return placa; } // Novo getter para a placa
+    public String getPlaca() { return placa; }
     public String getModelo() { return modelo; }
     public String getMarca() { return marca; }
     public int getAno() { return ano; }

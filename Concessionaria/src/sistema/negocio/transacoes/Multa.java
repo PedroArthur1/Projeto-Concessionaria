@@ -30,7 +30,11 @@ public class Multa extends Transacao {
 
     @Override
     public String toString() {
-        return "Tipo: Multa | " + super.toString()
+        return "Tipo: Multa | Cliente: " + cliente.getNome() +
+             ", Placa: " + veiculo.getPlaca() +
+             ", Veículo: " + veiculo.getModelo() +
+             ", Data: " + dataTransacao +
+             ", Pagamento: " + metodoPagamento
              + " | Motivo: " + motivo
              + " | Valor: R$" + String.format("%.2f", valor);
     }

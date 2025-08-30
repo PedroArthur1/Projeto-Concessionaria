@@ -1,9 +1,9 @@
 package sistema.ui;
 
 public class EscolhaPagamento {
-    private final String metodo;        // "DINHEIRO", "CREDITO 12x", etc.
-    private final Integer parcelas;     // null se não for crédito
-    private final Double valorParcela;  // null se não for crédito
+    private final String metodo;
+    private final Integer parcelas; 
+    private final Double valorParcela;
 
     public EscolhaPagamento(String metodo, Integer parcelas, Double valorParcela) {
         this.metodo = metodo;

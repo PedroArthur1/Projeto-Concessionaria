@@ -73,19 +73,16 @@ public void carregarVeiculos(String arquivo) {
     }
 }
 
-    // Adicionar veículo (com placa e quilometragem)
     public void adicionarVeiculo(String placa, String modelo, String marca, int ano, double preco, double quilometragem) throws PlacaDeveSerUnicaException {
         Veiculo novoVeiculo = new Veiculo(placa, modelo, marca, ano, preco, quilometragem);
         veiculoRepository.adicionar(novoVeiculo);
         // System.out.println("Veículo " + novoVeiculo.getModelo() + " adicionado ao estoque.");
     }
 
-    // Método para buscar veículo por placa
     public Veiculo buscarVeiculo(String placa) throws VeiculoNaoEncontradoException {
         return veiculoRepository.buscarPorPlaca(placa);
     }
 
-    // Remover veículo por placa
     public void removerVeiculo(String placa) throws VeiculoNaoEncontradoException {
         veiculoRepository.remover(placa);
         System.out.println("Veículo com placa " + placa + " removido do estoque.");
@@ -98,7 +95,6 @@ public void carregarVeiculos(String arquivo) {
         System.out.println("Dados do veículo " + veiculoParaEditar.getModelo() + " editados. Novo preço: R$" + String.format("%.2f", novoPreco) + "Disponibilidade: " + novaDisponibilidade);
     }
 
-    // Métodos para delegar a responsabilidade ao ClienteRepository
     public void adicionarCliente(Cliente cliente) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros, CPFDeveSerUnicoException {
         clienteRepository.adicionar(cliente);
     }
@@ -123,14 +119,12 @@ public void carregarVeiculos(String arquivo) {
         System.out.println("Dados do cliente com CPF " + cpf + " editados.");
     }
     
-    // Métodos para delegar a responsabilidade ao TransacaoRepository
+    // TransacaoRepository
     public List<Transacao> gerarRelatorio(LocalDate dataInicio, LocalDate dataFim) {
         List<Transacao> transacoes = transacaoRepository.listarPorPeriodo(dataInicio, dataFim);
         
-        // Crie uma variável para somar o total
         double totalTransacoes = 0;
         
-        // Itere sobre as transações e some os valores
         for(Transacao t : transacoes) {
             totalTransacoes += t.getValorTransacao();
         }
@@ -172,7 +166,6 @@ public void carregarVeiculos(String arquivo) {
         System.out.println("Aluguel registrado com sucesso para " + cliente.getNome() + " do veículo " + veiculoEmEstoque.getModelo() + " | Valor Total: R$" + String.format("%.2f", novoAluguel.getValorTotal()));
     }
 
-    // Busca o cliente do aluguel ATIVO (não concluído) para a placa informada
     public Cliente buscarClienteDoAluguelAtivo(String placa)
             throws VeiculoNaoEncontradoException, ClienteNaoEncontradoException {
 
@@ -200,7 +193,6 @@ public void carregarVeiculos(String arquivo) {
         return 0.0;
     }
 
-    // Registra a transação de Multa (entra no relatório)
     public void registrarMulta(Cliente cliente,
                             Veiculo veiculo,
                             String metodoPagamento,
@@ -210,7 +202,6 @@ public void carregarVeiculos(String arquivo) {
         transacaoRepository.adicionar(m);
     }
 
-    // Método de devolução, ajustado para placa e novos status
     public void devolverVeiculo(String placa, LocalDate dataDevolucaoReal, double valorDano, double novaQuilometragem) throws VeiculoNaoEncontradoException, DataDevolucaoInvalidaException {
     
         if (dataDevolucaoReal.isBefore(LocalDate.now())) {
@@ -255,9 +246,6 @@ public void carregarVeiculos(String arquivo) {
         System.out.println("Quilometragem Atual: " + veiculoAlugado.getQuilometragem() + " Km.");
     }
     
-    // Métodos para delegar a responsabilidade aos outros repositórios...
-    
-    // Métodos utilitários que agora chamam os repositórios
     public List<Cliente> getClientes() {
         return clienteRepository.listarTodos();
     }

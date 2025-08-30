@@ -16,7 +16,6 @@ public class ClienteRepository {
         this.clientes = new ArrayList<>();
     }
     
-    // Método para adicionar cliente com validações
     public void adicionar(Cliente cliente) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros, CPFDeveSerUnicoException {
         if (cliente.getNome().matches(".*\\d.*")) {
             throw new NomeDoClienteContemNumerosException("O nome do cliente não pode conter números.");
@@ -32,7 +31,6 @@ public class ClienteRepository {
         this.clientes.add(cliente);
     }
     
-    // Método para buscar cliente
     public Cliente buscar(String cpf) throws ClienteNaoEncontradoException {
         for (Cliente cliente : clientes) {
             if (cliente.getCpf().equals(cpf)) {
@@ -42,13 +40,11 @@ public class ClienteRepository {
         throw new ClienteNaoEncontradoException("Cliente com CPF " + cpf + " não encontrado.");
     }
     
-    // Método para remover cliente
     public void remover(String cpf) throws ClienteNaoEncontradoException {
         Cliente clienteRemover = buscar(cpf);
         clientes.remove(clienteRemover);
     }
 
-    // Método para listar todos os clientes
     public List<Cliente> listarTodos() {
         return new ArrayList<>(clientes);
     }
