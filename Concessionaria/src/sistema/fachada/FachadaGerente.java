@@ -11,9 +11,7 @@ import sistema.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
 import sistema.negocio.transacoes.Transacao;
 
 public class FachadaGerente extends FachadaVendedor {
-    public FachadaGerente(String nome, String cpf, LocalDate dataNascimento) {
-        super(nome, cpf, dataNascimento);
-    }    
+    public FachadaGerente(){}   
 
     public void adicionarVeiculo(Concessionaria concessionaria, String placa, String modelo, String marca, int ano, double preco, double quilometragem) throws PlacaDeveSerUnicaException {
         concessionaria.adicionarVeiculo(placa, modelo, marca, ano, preco, quilometragem);

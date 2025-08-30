@@ -185,11 +185,11 @@ public class MenuPrincipal {
                         double totalMulta = multaAtraso + valorDano;
 
                         if (totalMulta > 0) {
-                            //System.out.println("Multa por atraso: R$ " + String.format("%.2f", multaAtraso));
-                            //if (valorDano > 0) {
-                               // System.out.println("Valor de danos: R$ " + String.format("%.2f", valorDano));
-                            //}
-                            //System.out.println("Total de multa/danos: R$ " + String.format("%.2f", totalMulta));
+                            System.out.println("Multa por atraso: R$ " + String.format("%.2f", multaAtraso));
+                            if (valorDano > 0) {
+                               System.out.println("Valor de danos: R$ " + String.format("%.2f", valorDano));
+                            }
+                            System.out.println("Total de multa/danos: R$ " + String.format("%.2f", totalMulta));
 
                             // Cobrança da MULTA
                             EscolhaPagamento pg = PagamentoUI.escolherPagamento(totalMulta);

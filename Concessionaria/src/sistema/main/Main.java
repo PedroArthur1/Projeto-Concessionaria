@@ -1,5 +1,4 @@
 package sistema.main;
-import java.time.LocalDate;
 
 import sistema.fachada.Concessionaria;
 import sistema.fachada.FachadaGerente;
@@ -9,8 +8,8 @@ import sistema.ui.MenuPrincipal;
 public class Main {
     public static void main(String[] args) {
         Concessionaria minhaConcessionaria = new Concessionaria();
-        FachadaGerente gerente = new FachadaGerente("João Gerente", "11122233344", LocalDate.of(1974, 3, 5));
-        FachadaVendedor vendedor = new FachadaVendedor("Maria Vendedora", "55566677788", LocalDate.of(1989, 3, 20)); // retirar isso urgente
+        FachadaGerente gerente = new FachadaGerente();
+        FachadaVendedor vendedor = new FachadaVendedor(); // retirar isso urgente
         
         minhaConcessionaria.carregarVeiculos("Concessionaria\\src\\sistema\\repositorios\\veiculos.txt");
         minhaConcessionaria.carregarClientes("Concessionaria\\src\\sistema\\repositorios\\clientes.txt");

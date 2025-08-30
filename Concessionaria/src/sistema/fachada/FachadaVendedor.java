@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import sistema.negocio.entidades.Cliente;
-import sistema.negocio.entidades.Funcionario;
 import sistema.negocio.entidades.Veiculo;
 import sistema.negocio.excessoes.DataDevolucaoInvalidaException;
 import sistema.negocio.excessoes.VeiculoNaoEncontradoException;
@@ -12,10 +11,8 @@ import sistema.negocio.excessoes.cliente.CPFClienteDeveConterOnzeNumeros;
 import sistema.negocio.excessoes.cliente.CPFDeveSerUnicoException;
 import sistema.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
 
-public class FachadaVendedor extends Funcionario {
-    public FachadaVendedor(String nome, String cpf, LocalDate dataNascimento) {
-        super(nome, cpf, dataNascimento);
-    }
+public class FachadaVendedor {
+    public FachadaVendedor(){}
 
     public void cadastrarCliente(Concessionaria concessionaria, Cliente cliente) throws NomeDoClienteContemNumerosException, CPFClienteDeveConterOnzeNumeros, CPFDeveSerUnicoException {
         concessionaria.adicionarCliente(cliente);
