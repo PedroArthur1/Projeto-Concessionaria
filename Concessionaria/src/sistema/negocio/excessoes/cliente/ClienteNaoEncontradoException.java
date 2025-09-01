@@ -1,6 +1,6 @@
 package sistema.negocio.excessoes.cliente;
 /**
- * @author Emanuel Bezerra
+ * @author Cleita Emanuela
  * @description Classe que define a exceção para quando um cliente não é encontrado.
  */
 public class ClienteNaoEncontradoException extends Exception {

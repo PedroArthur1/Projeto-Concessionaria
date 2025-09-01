@@ -1,7 +1,7 @@
 package sistema.negocio.excessoes;
 
 /**
- * @author Pedro Arthur
+ * @author Cleita Emanuela
  * @description Classe que define a exceção para estoque insuficiente.
  */
 public class EstoqueInsuficienteException extends Exception {

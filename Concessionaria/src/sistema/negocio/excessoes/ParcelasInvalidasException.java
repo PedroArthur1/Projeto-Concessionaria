@@ -1,6 +1,6 @@
 package sistema.negocio.excessoes;
 /**
- * @author Pedro Arthur
+ * @author Cleita Emanuela
  * @description Classe que define a exceção para parcelas inválidas.
  */
 

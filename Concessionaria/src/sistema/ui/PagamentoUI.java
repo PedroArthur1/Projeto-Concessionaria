@@ -3,7 +3,28 @@ package sistema.ui;
 import sistema.main.Terminal;
 import sistema.negocio.excessoes.ParcelasInvalidasException;
 
+/**
+ * Classe utilitária responsável por interagir com o usuário para a escolha da
+ * forma de pagamento.
+ * 
+ * Esta classe apresenta as opções de pagamento disponíveis e coleta a
+ * entrada do usuário, validando-a e retornando um objeto {@code EscolhaPagamento}.
+ *
+ * @author Emanuel Bezerra e Pedro Arthur
+ * @description Classe que gerencia a interface para a escolha de pagamento.
+ */
+
 public class PagamentoUI {
+
+    /**
+     * Exibe um menu de opções de pagamento e solicita a escolha do usuário.
+     *
+     * @param totalAPagar O valor total da transação a ser paga.
+     * @return Um objeto {@code EscolhaPagamento} contendo os detalhes da
+     * opção selecionada.
+     * @throws ParcelasInvalidasException se o usuário escolher um número de
+     * parcelas fora do intervalo permitido (1 a 24).
+     */
 
     public static EscolhaPagamento escolherPagamento(double totalAPagar) throws ParcelasInvalidasException {
         System.out.printf("\n---Forma de pagamento---\n");

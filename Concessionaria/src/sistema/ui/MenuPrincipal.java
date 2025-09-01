@@ -21,6 +21,23 @@ import sistema.negocio.excessoes.cliente.NomeDoClienteContemNumerosException;
 import sistema.negocio.transacoes.Aluguel;
 import sistema.negocio.transacoes.Transacao;
 
+/**
+ * Gerencia a interface de usuário da concessionária, apresentando menus para diferentes perfis
+ * de usuário (Vendedor e Gerente) e orquestrando as operações do sistema.
+ * 
+ * Esta classe é responsável por:
+ * - Exibir um menu principal para a seleção do perfil de usuário.
+ * - Controlar os submenus para as ações específicas de Vendedor e Gerente.
+ * - Interagir com as fachadas {@code FachadaVendedor} e {@code FachadaGerente} para
+ * executar as lógicas de negócio.
+ * - Gerenciar a entrada e saída de dados do usuário através da classe utilitária {@code Terminal}.
+ * - Capturar e tratar exceções que podem ocorrer durante as operações do sistema, como
+ * erros de entrada ou dados não encontrados.
+ *
+ * @author Emanuel Bezerra, Pedro Arthur e Cleita Emanuela
+ * @description Classe que define a interface de usuário principal do sistema da concessionária.
+ */
+
 public class MenuPrincipal {
 
     private Concessionaria concessionaria;
