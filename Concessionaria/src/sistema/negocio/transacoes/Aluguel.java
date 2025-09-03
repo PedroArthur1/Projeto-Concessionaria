@@ -24,21 +24,21 @@ public class Aluguel extends Transacao {
         this.diasAlugados = diasAlugados;
         this.dataDevolucao = dataTransacao.plusDays(diasAlugados);
         this.valorTotal = diasAlugados * VALOR_DIARIA;
-    }
+    } 
 
     /**
      * Simula o valor total de um aluguel com base no número de dias.
      * @param dias totais do aluguek.
      * @return O valor total dos dias X o valor da diaria.
      */
-    public static double simularTotal(int dias) {
+    public static double simularTotal(int dias) { //metodo estatico para auxiliar na simulacao do valor total no menu, para evitar a criacao de um objeto novo somente para obter o valro total
         return dias * VALOR_DIARIA;
-    }
+    } 
 
     /**
      * Calcula o valor da multa por atraso na devolução do veículo.
      * Cada dia equivale a 50 reais.
-     * @param dataDevolucaoReal A data real de devolução.
+     * @param dataDevolucaoReal A data real de devolução (a data que o cliente devolveu).
      * @return O valor da multa por atraso, ou 0 se não houver atraso.
      */
     public double calcularMulta(LocalDate dataDevolucaoReal) {
